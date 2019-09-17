@@ -1,0 +1,18 @@
+#Options +FollowSymLinks
+IndexIgnore */*
+#включить модуль RewriteEngine
+RewriteEngine on
+
+#Если запрос не включает в себя web | /web/assets/ и т.д.
+RewriteCond %{REQUEST_URI} !^/(web)
+RewriteRule ^assets/(.*)$ /web/assets/$1 [L]
+RewriteRule ^css/(.*)$ web/css/$1 [L]
+RewriteRule ^js/(.*)$ web/js/$1 [L]
+RewriteRule ^images/(.*)$ web/images/$1 [L]
+RewriteRule (.*) /web/$1
+
+#Если это не реально существующий файл или папка/Файл и директории оставляем без изменений
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+#Переадресовать на /web/index.php
+RewriteRule . /web/index.php
