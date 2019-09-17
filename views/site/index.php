@@ -7,11 +7,11 @@ $this->title = 'Главная страница';
 ?>
 
 
-<nav class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
-        <a href="<?= Url::to(['abonent/index']); ?>"><?= Html::submitButton('Справочник организаций', ['class' => 'btn btn-default']); ?></a>
+        <a href="<?= Url::to(['club/index']); ?>"><?= Html::submitButton('Справочник клубов', ['class' => 'btn btn-default']); ?></a>
+        <a href="<?= Url::to(['visitor/index']); ?>"><?= Html::submitButton('Справочник посетителей', ['class' => 'btn btn-default']); ?></a>
+        <a href="<?= Url::to(['playlist/index']); ?>"><?= Html::submitButton('Справочник плейлистов', ['class' => 'btn btn-default']); ?></a>
     </div>
-</nav>
 
 <div class="site-index">
 

@@ -15,7 +15,7 @@ class Visitor extends ActiveRecord
 {
     public static function tableName()
     {
-        return 'playlist';
+        return 'visitor';
     }
 
     public function getCompany()
