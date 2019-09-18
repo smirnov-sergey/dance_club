@@ -8,8 +8,8 @@
 
 namespace app\models;
 
-
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 class Company extends ActiveRecord
 {
@@ -26,7 +26,22 @@ class Company extends ActiveRecord
     public function rules()
     {
         return [
-            [['id, name'], 'safe'],
+            [['name'], 'required'],
+            [['id', 'name'], 'safe'],
+            [['name'], 'string', 'min' => 3, 'max' => 255],
         ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'name' => 'Название группы',
+        ];
+    }
+
+    //для выпадающего списка в форме заполнения Visitor
+    public static function getDropDown()
+    {
+        return ArrayHelper::map(self::find()->all(), 'id', 'name');
     }
 }

@@ -9,10 +9,12 @@ $this->title = 'Найденные плейлисты';
 <title><?= Html::encode($this->title) ?></title>
 
 <div class="nav nav-pills">
-    <a href="<?= Url::to(['playlist/index']); ?>"> <?= Html::submitButton('Плейлист', ['class' => 'btn btn-primary']); ?></a>
+    <a href="<?= Url::to(['playlist/index']); ?>"> <?= Html::submitButton('Все плейлисты', ['class' => 'btn btn-primary']); ?></a>
 </div>
 
 <h3 class="title text-center">Поиск по запросу: <?= Html::encode($search); ?></h3>
+<br>
+<h3 class="title text-center">Найденные плейлисты: </h3>
 
 <?php if (!empty($playlists)): ?>
     <?php foreach ($playlists as $playlist): ?>

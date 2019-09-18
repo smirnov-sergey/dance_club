@@ -1,11 +1,10 @@
 <?php
 
-use app\models\Playlist;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
-$this->title = 'Клуб';
+$this->title = 'Жанр';
 ?>
 
 <title><?= Html::encode($this->title) ?></title>
@@ -20,16 +19,15 @@ $this->title = 'Клуб';
 <?php endif; ?>
 
 <div class="nav nav-pills">
-    <a href="<?= Url::to(['club/index']); ?>"> <?= Html::submitButton('Все клубы', ['class' => 'btn btn-primary']); ?></a>
+    <a href="<?= Url::to(['genre/index']); ?>"> <?= Html::submitButton('Все жанры', ['class' => 'btn btn-primary']); ?></a>
 </div>
 
-<div class="club container">
-    <h3>Клуб</h3>
+<div class="genre container">
+    <h3>Жанр</h3>
     <div class="form-group">
         <div class="col-md-4">
-            <?php $form = ActiveForm::begin(['id' => 'club-update-form']); ?>
-            <?= $form->field($club, 'name')->textInput(); ?>
-            <?= $form->field($club, 'playlist_id')->dropDownList(Playlist::getDropDown()); ?>
+            <?php $form = ActiveForm::begin(['id' => 'genre-update-form']); ?>
+            <?= $form->field($genre, 'name')->textInput(); ?>
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'name' => 'login-button']); ?>
             <?php ActiveForm::end(); ?>
         </div>

@@ -31,7 +31,7 @@ class PlaylistTrack extends ActiveRecord
     public function rules()
     {
         return [
-            [['playlist_id, track_id'], 'safe'],
+            [['playlist_id', 'track_id'], 'safe'],
         ];
     }
 

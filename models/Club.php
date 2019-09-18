@@ -9,6 +9,7 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 class Club extends ActiveRecord
 {
@@ -34,11 +35,25 @@ class Club extends ActiveRecord
     public function rules()
     {
         return [
-            [['id, playlist_id'], 'safe'],
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
+            [['name'], 'required'],
+            [['playlist_id'], 'safe'],
+            [['name'], 'string', 'min' => 3, 'max' => 255],
+//            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+//            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'name' => 'Название клуба',
+            'playlist_id' => 'Выбрать плейлист',
+        ];
+    }
 
+    //для выпадающего списка в форме заполнения Visitor
+    public static function getDropDown()
+    {
+        return ArrayHelper::map(self::find()->all(), 'id', 'name');
+    }
 }

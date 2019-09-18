@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Playlist;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -19,6 +20,7 @@ $this->title = 'Клуб';
         <div class="col-md-4">
             <?php $form = ActiveForm::begin(['id' => 'club-add-form']); ?>
             <?= $form->field($club, 'name')->textInput(['autofocus' => true, 'placeholder' => 'Введите название клуба']); ?>
+            <?= $form->field($club, 'playlist_id')->dropDownList(Playlist::getDropDown()); ?>
             <?= Html::submitButton('Добавить', ['class' => 'btn btn-primary', 'name' => 'login-button']); ?>
             <?php ActiveForm::end(); ?>
         </div>

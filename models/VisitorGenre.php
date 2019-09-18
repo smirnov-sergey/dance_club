@@ -30,7 +30,7 @@ class VisitorGenre extends ActiveRecord
     public function rules()
     {
         return [
-            [['visitor_id, genre_id'], 'safe'],
+            [['visitor_id', 'genre_id'], 'safe'],
         ];
     }
 }

@@ -13,8 +13,23 @@ $this->title = 'Плейлист';
     <a href="<?= Url::to(['playlist/index']); ?>"> <?= Html::submitButton('Все плейлисты', ['class' => 'btn btn-primary']); ?></a>
 </div>
 
-<div class="container">
-    <div class="row">
-        <h3 class="text-center"><?= $playlist->name; ?></h3>
-    </div>
-</div>
+<table class="table">
+    <thead class="thead-default">
+    <tr>
+        <th class="col-md-2"><h5>Название плейлиста</h5></th>
+        <th class="col-md-2"><h5>Треки</h5></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><h3><?= $playlist->name; ?></h3></td>
+        <td>
+            <h3>
+                <?php foreach ($tracks as $track): ?>
+                    <?= $track->name; ?><br>
+                <?php endforeach; ?>
+            </h3>
+        </td>
+    </tr>
+    </tbody>
+</table>

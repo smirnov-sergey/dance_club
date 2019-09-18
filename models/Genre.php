@@ -9,6 +9,7 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 class Genre extends ActiveRecord
 {
@@ -30,8 +31,21 @@ class Genre extends ActiveRecord
     public function rules()
     {
         return [
-            [['id, name'], 'safe'],
+            [['id', 'name'], 'safe'],
+            [['name'], 'string', 'min' => 3, 'max' => 255],
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'name' => 'Название жанра музыки',
+        ];
+    }
+
+    //для выпадающего списка в форме заполнения Track
+    public static function getDropDown()
+    {
+        return ArrayHelper::map(self::find()->all(), 'id', 'name');
+    }
 }

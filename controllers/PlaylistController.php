@@ -9,6 +9,8 @@
 namespace app\controllers;
 
 use app\models\Playlist;
+use app\models\PlaylistTrack;
+use app\models\Track;
 use Yii;
 use yii\web\NotFoundHttpException;
 
@@ -25,7 +27,14 @@ class PlaylistController extends AppController
     {
         $playlist = $this->findModel($id);
 
-        return $this->render('view', compact('playlist'));
+        $tracks = Playlist::find()
+            ->select('track.name')
+            ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
+            ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
+            ->where(['playlist.id' => $id])
+            ->all();
+
+        return $this->render('view', compact('playlist', 'tracks'));
     }
 
     public function actionAdd()
@@ -77,8 +86,8 @@ class PlaylistController extends AppController
         if (!$search)
             return $this->render('search');
 
-        $playlist = Playlist::find()->where(['like', 'name', $search])->with(['track'])->all();
+        $playlists = Playlist::find()->where(['like', 'name', $search])->all();
 
-        return $this->render('search', compact('playlist', 'search'));
+        return $this->render('search', compact('playlists', 'search'));
     }
 }

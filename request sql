@@ -1,0 +1,20 @@
+// Для плейлиста
+SELECT
+  p.name AS playlist,
+  t.name AS track
+FROM playlist AS p
+  INNER JOIN playlist_track AS pt
+    ON p.id = pt.playlist_id
+  INNER JOIN track AS t
+    ON pt.track_id = t.id
+
+// Для клуба
+SELECT
+  club.name    AS club,
+  visitor.name AS visitors,
+  company.name AS company
+FROM club
+  INNER JOIN visitor
+    ON club.id = visitor.club_id
+  INNER JOIN company
+    ON visitor.company_id = company.id

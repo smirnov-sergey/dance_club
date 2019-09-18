@@ -8,7 +8,7 @@ class m190916_184005_create_company_table extends Migration
     {
         $this->createTable('{{%company}}', [
             'id' => $this->primaryKey(11)->unsigned(),
-            'name' => $this->string(255)->null(),
+            'name' => $this->string(255)->defaultValue('Без группы'),
         ]);
     }
 

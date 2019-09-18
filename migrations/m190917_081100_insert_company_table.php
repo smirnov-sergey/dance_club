@@ -9,16 +9,21 @@ class m190917_081100_insert_company_table extends Migration
     {
         $this->insert('company', [
             'id' => '1',
-            'name' => 'first',
+            'name' => 'Без группы',
         ]);
 
         $this->insert('company', [
             'id' => '2',
-            'name' => 'second',
+            'name' => 'first',
         ]);
 
         $this->insert('company', [
             'id' => '3',
+            'name' => 'second',
+        ]);
+
+        $this->insert('company', [
+            'id' => '4',
             'name' => 'third',
         ]);
     }

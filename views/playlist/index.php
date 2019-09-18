@@ -19,8 +19,8 @@ $this->title = 'Плейлист';
     <table class="table">
         <thead class="thead-default">
         <tr>
-            <th class="col-md-2">Наименование</th>
-            <th class="col-md-4">Действия</th>
+            <th class="col-md-4">Название</th>
+            <th class="col-md-2">Действия</th>
         </tr>
         </thead>
         <tbody>

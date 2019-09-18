@@ -20,6 +20,7 @@ $this->title = 'Клуб';
         <thead class="thead-default">
         <tr>
             <th class="col-md-2">Название клуба</th>
+            <th class="col-md-2">Плейлист</th>
             <th class="col-md-4">Действия</th>
         </tr>
         </thead>
@@ -28,6 +29,7 @@ $this->title = 'Клуб';
         <?php foreach ($clubs as $club): ?>
             <tr>
                 <td><?= $club->name; ?></td>
+                <td><?= $club->playlist->name; ?></td>
                 <td>
                     <a href="<?= Url::to(['club/view', 'id' => $club->id]); ?>"><?= Html::submitButton('Посмотреть', ['class' => 'btn btn-info']); ?></a>
                     <a href="<?= Url::to(['club/update', 'id' => $club->id]); ?>"><?= Html::submitButton('Изменить', ['class' => 'btn btn-warning']); ?></a>

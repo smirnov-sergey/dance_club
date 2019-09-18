@@ -9,7 +9,7 @@ $this->title = 'Найденные посетители';
 <title><?= Html::encode($this->title) ?></title>
 
 <div class="nav nav-pills">
-    <a href="<?= Url::to(['visitor/index']); ?>"> <?= Html::submitButton('Посетитель', ['class' => 'btn btn-primary']); ?></a>
+    <a href="<?= Url::to(['visitor/index']); ?>"> <?= Html::submitButton('Все посетители', ['class' => 'btn btn-primary']); ?></a>
 </div>
 
 <h3 class="title text-center">Поиск по запросу: <?= Html::encode($search); ?></h3>

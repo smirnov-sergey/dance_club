@@ -9,33 +9,33 @@ class m190917_081753_insert_visitor_table extends Migration
         $this->insert('visitor', [
             'id' => '1',
             'name' => 'Anton',
-            'gender' => 'm',
+            'gender' => 'мужской',
             'club_id' => '1',
-            'company_id' => '1',
+            'company_id' => '2',
         ]);
 
         $this->insert('visitor', [
             'id' => '2',
             'name' => 'Bella',
-            'gender' => 'w',
+            'gender' => 'женский',
             'club_id' => '1',
-            'company_id' => '1',
+            'company_id' => '2',
         ]);
 
         $this->insert('visitor', [
             'id' => '3',
             'name' => 'Vlad',
-            'gender' => 'm',
+            'gender' => 'мужской',
             'club_id' => '2',
-            'company_id' => '2',
+            'company_id' => '3',
         ]);
 
         $this->insert('visitor', [
             'id' => '4',
             'name' => 'Galla',
-            'gender' => 'w',
+            'gender' => 'женский',
             'club_id' => '2',
-            'company_id' => '2',
+            'company_id' => '3',
         ]);
     }
 

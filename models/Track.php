@@ -30,7 +30,17 @@ class Track extends ActiveRecord
     public function rules()
     {
         return [
-            [['id, name, genre_id'], 'safe'],
+            [['id', 'name', 'genre_id'], 'safe'],
+            [['name'], 'string', 'min' => 3, 'max' => 255],
         ];
     }
+
+    public function attributeLabels()
+    {
+        return [
+            'name' => 'Название трека',
+            'genre_id' => 'Жанр музыки',
+        ];
+    }
+
 }

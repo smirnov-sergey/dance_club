@@ -9,10 +9,12 @@ $this->title = 'Найденные клубы';
 <title><?= Html::encode($this->title) ?></title>
 
 <div class="nav nav-pills">
-    <a href="<?= Url::to(['club/index']); ?>"> <?= Html::submitButton('Клуб', ['class' => 'btn btn-primary']); ?></a>
+    <a href="<?= Url::to(['club/index']); ?>"> <?= Html::submitButton('Все клубы', ['class' => 'btn btn-primary']); ?></a>
 </div>
 
 <h3 class="title text-center">Поиск по запросу: <?= Html::encode($search); ?></h3>
+<br>
+<h3 class="title text-center">Найденные клубы: </h3>
 
 <?php if (!empty($clubs)): ?>
     <?php foreach ($clubs as $club): ?>

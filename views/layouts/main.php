@@ -29,13 +29,13 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name = 'Smirnov',
+        'brandLabel' => Yii::$app->name = 'Главная',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    echo Nav::widget([
+/*    echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
@@ -54,7 +54,7 @@ AppAsset::register($this);
                 . '</li>'
             )
         ],
-    ]);
+    ]);*/
     NavBar::end();
     ?>
 

@@ -9,6 +9,7 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 class Playlist extends ActiveRecord
 {
@@ -30,7 +31,15 @@ class Playlist extends ActiveRecord
     public function rules()
     {
         return [
-            [['id, name'], 'safe'],
+            [['id', 'name'], 'safe'],
+            [['name'], 'string', 'min' => 3, 'max' => 255],
+
         ];
+    }
+
+    //для выпадающего списка в форме заполнения Club
+    public static function getDropDown()
+    {
+        return ArrayHelper::map(self::find()->all(), 'id', 'name');
     }
 }

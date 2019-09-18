@@ -9,6 +9,8 @@
 namespace app\controllers;
 
 use app\models\Club;
+use app\models\Visitor;
+use app\models\Company;
 use Yii;
 use yii\web\NotFoundHttpException;
 
@@ -25,11 +27,26 @@ class ClubController  extends AppController
     {
         $club = $this->findModel($id);
 
-        return $this->render('view', compact('club'));
+        $visitors = Club::find()
+            ->select('visitor.name')
+            ->innerJoin(Visitor::tableName(), 'club.id = visitor.club_id')
+            ->innerJoin(Company::tableName(), 'visitor.company_id = company.id')
+            ->where(['club.id' => $id])
+            ->all();
+
+        $companies = Club::find()
+            ->select('company.name')
+            ->innerJoin(Visitor::tableName(), 'club.id = visitor.club_id')
+            ->innerJoin(Company::tableName(), 'visitor.company_id = company.id')
+            ->where(['club.id' => $id])
+            ->all();
+
+        return $this->render('view', compact('club', 'visitors', 'companies'));
     }
 
     public function actionAdd()
     {
+        //TODO Нужен тест, если плейлист не существует, значение по умолчанию defaultValue('Плейлист пуст'),
         $club = new Club();
 
         if ($club->load(Yii::$app->request->post()) && $club->validate()) {
@@ -77,9 +94,9 @@ class ClubController  extends AppController
         if (!$search)
             return $this->render('search');
 
-        $club = Club::find()->where(['like', 'name', $search])->with(['track'])->all();
+        $clubs = Club::find()->where(['like', 'name', $search])->all();
 
-        return $this->render('search', compact('club', 'search'));
+        return $this->render('search', compact('clubs', 'search'));
     }
 
 

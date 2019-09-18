@@ -17,7 +17,7 @@ class VisitorController extends AppController
 {
     public function actionIndex()
     {
-        $visitors = Visitor::find()->all();
+        $visitors = Visitor::find()->with(['company', 'club'])->all();
 
         return $this->render('index', compact('visitors'));
     }
@@ -78,8 +78,8 @@ class VisitorController extends AppController
         if (!$search)
             return $this->render('search');
 
-        $visitor = Visitor::find()->where(['like', 'name', $search])->all();
+        $visitors = Visitor::find()->where(['like', 'name', $search])->all();
 
-        return $this->render('search', compact('visitor', 'search'));
+        return $this->render('search', compact('visitors', 'search'));
     }
 }

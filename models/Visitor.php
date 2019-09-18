@@ -36,7 +36,19 @@ class Visitor extends ActiveRecord
     public function rules()
     {
         return [
-            [['id, name, gender, club_id, company_id'], 'safe'],
+            [['name'], 'required'],
+            [['id', 'name', 'gender', 'club_id', 'company_id'], 'safe'],
+            [['name'], 'string', 'min' => 3, 'max' => 255],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'name' => 'Имя',
+            'gender' => 'Пол',
+            'club_id' => 'Клуб',
+            'company_id' => 'Группа',
         ];
     }
 }

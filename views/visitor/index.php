@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = 'Посетитель';
+$this->title = 'Посетители';
 ?>
 
 <title><?= Html::encode($this->title) ?></title>
@@ -14,7 +14,7 @@ $this->title = 'Посетитель';
 </form>
 
 <div class="table-responsive">
-    <h3 class="text-center">Посетитель</h3>
+    <h3 class="text-center">Посетители</h3>
 
     <table class="table">
         <thead class="thead-default">

@@ -13,11 +13,23 @@ $this->title = 'Посетитель';
     <a href="<?= Url::to(['visitor/index']); ?>"> <?= Html::submitButton('Все посетители', ['class' => 'btn btn-primary']); ?></a>
 </div>
 
-<div class="container">
-    <div class="row">
-        <h3 class="text-center"><?= $visitor->name; ?></h3>
-        <h3 class="text-center"><?= $visitor->gender; ?></h3>
-        <h3 class="text-center"><?= $visitor->company->name; ?></h3>
-        <h3 class="text-center"><?= $visitor->club->name; ?></h3>
-    </div>
-</div>
+
+
+<table class="table">
+    <thead class="thead-default">
+    <tr>
+        <th class="col-md-2"><h5>Имя посетителя</h5></th>
+        <th class="col-md-2"><h5>Пол</h5></th>
+        <th class="col-md-2"><h5>Группа</h5></th>
+        <th class="col-md-2"><h5>Клуб</h5></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><h3><?= $visitor->name; ?></h3></td>
+        <td><h3><?= $visitor->gender; ?></h3></td>
+        <td><h3><?= $visitor->company->name; ?></h3></td>
+        <td><h3><?= $visitor->club->name; ?></h3></td>
+    </tr>
+    </tbody>
+</table>
