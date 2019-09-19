@@ -10,8 +10,8 @@ class m190916_184232_create_visitor_table extends Migration
             'id' => $this->primaryKey(11)->unsigned(),
             'name' => $this->string(255)->null(),
             'gender' => 'ENUM("мужской", "женский")',
-            'club_id' => $this->integer(11)->unsigned(),
-            'company_id' => $this->integer(11)->unsigned(),
+            'club_id' => $this->integer(11)->unsigned()->null(),
+            'company_id' => $this->integer(11)->unsigned()->null(),
         ]);
 
         $this->addForeignKey(

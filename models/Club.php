@@ -32,6 +32,13 @@ class Club extends ActiveRecord
         return $this->hasMany(Visitor::class, ['club_id' => 'id']);
     }
 
+    //Для связи c Company, через таблицу Visitor
+    public function getCompany()
+    {
+        return $this->hasMany(Company::class, ['id' => 'company_id'])
+            ->viaTable(Visitor::tableName(), ['club_id' => 'id']);
+    }
+
     public function rules()
     {
         return [

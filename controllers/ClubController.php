@@ -18,7 +18,7 @@ class ClubController extends AppController
 {
     public function actionIndex()
     {
-        $clubs = Club::find()->all();
+        $clubs = Club::find()->with('visitor', 'playlist', 'company')->all();
 
         return $this->render('index', compact('clubs'));
     }
@@ -74,6 +74,37 @@ class ClubController extends AppController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
+        return $this->redirect(['club/index']);
+    }
+
+    public function actionExitVisitor($id)
+    {
+        $this->findModel($id);
+
+        Yii::$app->db->createCommand()->update('visitor', ['club_id' => 1], ['club_id' => $id])->execute();
+
+        return $this->redirect(['club/index']);
+    }
+
+    public function actionExitCompany($id)
+    {
+        $this->findModel($id);
+
+        Yii::$app->db->createCommand()->update('visitor', ['club_id' => null, 'company_id' => null], ['company.id' => $id])->execute();
+
+        Yii::$app->db->createCommand(
+            "UPDATE visitor JOIN club ON club.id = visitor.club_id INNER JOIN company ON visitor.company_id = company.id SET visitor.company_id = NULL, visitor.club_id = NULL WHERE company.id = $id;")
+            ->execute();
+
+        /*  UPDATE visitor
+                JOIN club
+                    ON club.id = visitor.club_id
+                INNER JOIN company
+                    ON visitor.company_id = company.id
+                SET visitor.company_id = NULL,
+                    visitor.club_id      = NULL
+                        WHERE company.id = 2;*/
 
         return $this->redirect(['club/index']);
     }

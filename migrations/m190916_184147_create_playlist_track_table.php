@@ -8,8 +8,8 @@ class m190916_184147_create_playlist_track_table extends Migration
     {
         $this->createTable('{{%playlist_track}}', [
             'id' => $this->primaryKey(11)->unsigned(),
-            'playlist_id' => $this->integer(11)->unsigned(),
-            'track_id' => $this->integer(11)->unsigned(),
+            'playlist_id' => $this->integer(11)->unsigned()->null(),
+            'track_id' => $this->integer(11)->unsigned()->null(),
         ]);
 
         $this->addForeignKey(

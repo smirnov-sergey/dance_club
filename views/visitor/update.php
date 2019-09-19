@@ -23,7 +23,7 @@ $this->title = 'Посетитель';
             <?php $form = ActiveForm::begin(['id' => 'visitor-update-form']); ?>
             <?= $form->field($visitor, 'name')->textInput(); ?>
             <?= $form->field($visitor, 'gender')->radioList(['мужской' => 'М', 'женский' => 'Ж']) ?>
-            <?= $form->field($genres, 'id')->dropDownList(Genre::getDropDown()); ?>
+            <?= $form->field($visitor, 'genre')->dropDownList(Genre::getDropDown()); ?>
             <?= $form->field($visitor, 'company_id')->dropDownList(Company::getDropDown()); ?>
             <?= $form->field($visitor, 'club_id')->dropDownList(Club::getDropDown()); ?>
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'name' => 'login-button']); ?>

@@ -8,8 +8,8 @@ class m190916_184244_create_visitor_genre_table extends Migration
     {
         $this->createTable('{{%visitor_genre}}', [
             'id' => $this->primaryKey(11)->unsigned(),
-            'visitor_id' => $this->integer(11)->unsigned(),
-            'genre_id' => $this->integer(11)->unsigned(),
+            'visitor_id' => $this->integer(11)->unsigned()->null(),
+            'genre_id' => $this->integer(11)->unsigned()->null(),
         ]);
 
         $this->addForeignKey(

@@ -27,6 +27,16 @@ FROM club
   INNER JOIN company
     ON visitor.company_id = company.id
 
+// Для клуба выход групп, посетителей
+UPDATE visitor
+  JOIN club
+    ON club.id = visitor.club_id
+  INNER JOIN company
+    ON visitor.company_id = company.id
+SET visitor.company_id = NULL,
+  visitor.club_id      = NULL
+WHERE company.id = 2;
+
 // Для посетителей
 SELECT
   visitor.name AS visitors,

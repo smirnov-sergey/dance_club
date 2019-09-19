@@ -47,15 +47,13 @@ class VisitorController extends AppController
     {
         $visitor = $this->findModel($id);
 
-        $genres = $this->genreMusic($id);
-
         if ($visitor->load(Yii::$app->request->post()) && $visitor->validate()) {
             if ($visitor->save()) {
                 return $this->redirect(['visitor/index']);
             }
         }
 
-        return $this->render('update', compact('visitor', 'genres'));
+        return $this->render('update', compact('visitor'));
     }
 
     public function actionDelete($id)

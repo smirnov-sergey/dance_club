@@ -8,26 +8,32 @@ class m190917_081642_insert_club_table extends Migration
     {
         $this->insert('club', [
             'id' => '1',
-            'name' => 'alfa',
+            'name' => 'Не клуб',
             'playlist_id' => '1',
         ]);
 
         $this->insert('club', [
             'id' => '2',
+            'name' => 'alfa',
+            'playlist_id' => '1',
+        ]);
+
+        $this->insert('club', [
+            'id' => '3',
             'name' => 'beta',
             'playlist_id' => '2',
         ]);
 
         $this->insert('club', [
-            'id' => '3',
+            'id' => '4',
             'name' => 'gama',
             'playlist_id' => '3',
         ]);
 
         $this->insert('club', [
-            'id' => '4',
+            'id' => '5',
             'name' => 'delta',
-            'playlist_id' => '1',
+            'playlist_id' => '2',
         ]);
     }
 

@@ -14,17 +14,22 @@ class m190917_081100_insert_company_table extends Migration
 
         $this->insert('company', [
             'id' => '2',
-            'name' => 'first',
-        ]);
-
-        $this->insert('company', [
-            'id' => '3',
             'name' => 'second',
         ]);
 
         $this->insert('company', [
-            'id' => '4',
+            'id' => '3',
             'name' => 'third',
+        ]);
+
+        $this->insert('company', [
+            'id' => '4',
+            'name' => 'fourth',
+        ]);
+
+        $this->insert('company', [
+            'id' => '5',
+            'name' => 'fifth',
         ]);
     }
 

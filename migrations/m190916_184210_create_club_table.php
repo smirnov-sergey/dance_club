@@ -9,7 +9,7 @@ class m190916_184210_create_club_table extends Migration
         $this->createTable('{{%club}}', [
             'id' => $this->primaryKey(11)->unsigned(),
             'name' => $this->string(255)->null(),
-            'playlist_id' => $this->integer(11)->unsigned(),
+            'playlist_id' => $this->integer(11)->unsigned()->null(),
         ]);
 
         $this->addForeignKey(

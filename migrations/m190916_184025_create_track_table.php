@@ -9,7 +9,7 @@ class m190916_184025_create_track_table extends Migration
         $this->createTable('{{%track}}', [
             'id' => $this->primaryKey(11)->unsigned(),
             'name' => $this->string(255)->null(),
-            'genre_id' => $this->integer(11)->unsigned(),
+            'genre_id' => $this->integer(11)->unsigned()->null(),
         ]);
 
         $this->addForeignKey(

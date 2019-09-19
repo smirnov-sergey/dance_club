@@ -23,6 +23,13 @@ class Company extends ActiveRecord
         return $this->hasMany(Visitor::class, ['company_id' => 'id']);
     }
 
+    //Для связи c Club, через таблицу Visitor
+    public function getClub()
+    {
+        return $this->hasOne(Club::class, ['id' => 'club_id'])
+            ->viaTable(Visitor::tableName(), ['company_id' => 'id']);
+    }
+
     public function rules()
     {
         return [

@@ -19,8 +19,9 @@ $this->title = 'Группы';
     <table class="table">
         <thead class="thead-default">
         <tr>
-            <th class="col-md-2">Название группы</th>
-            <th class="col-md-2">Действия</th>
+            <th class="col-md-4">Название группы</th>
+            <th class="col-md-4">Участники группы</th>
+            <th class="col-md-4">Действия</th>
         </tr>
         </thead>
         <tbody>
@@ -28,6 +29,11 @@ $this->title = 'Группы';
         <?php foreach ($companies as $company): ?>
             <tr>
                 <td><?= $company->name; ?></td>
+                <td>
+                    <?php foreach ($company->visitor as $visitor): ?>
+                        <?= $visitor->name; ?> <br>
+                    <?php endforeach; ?>
+                </td>
                 <td>
                     <a href="<?= Url::to(['company/view', 'id' => $company->id]); ?>"><?= Html::submitButton('Посмотреть', ['class' => 'btn btn-info']); ?></a>
                     <a href="<?= Url::to(['company/update', 'id' => $company->id]); ?>"><?= Html::submitButton('Изменить', ['class' => 'btn btn-warning']); ?></a>

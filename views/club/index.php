@@ -21,6 +21,8 @@ $this->title = 'Клуб';
         <tr>
             <th class="col-md-2">Название клуба</th>
             <th class="col-md-2">Плейлист</th>
+            <th class="col-md-2">Группа</th>
+            <th class="col-md-2">Посетители</th>
             <th class="col-md-4">Действия</th>
         </tr>
         </thead>
@@ -30,6 +32,21 @@ $this->title = 'Клуб';
             <tr>
                 <td><?= $club->name; ?></td>
                 <td><?= $club->playlist->name; ?></td>
+                <td>
+                    <?php foreach ($club->company as $company): ?>
+                        <?= $company->name; ?>
+                        <a href="<?= Url::to(['club/exitCompany', 'id' => $company->id]); ?>"><span class="glyphicon glyphicon-log-out"></span></a>
+                        <br>
+                    <?php endforeach; ?>
+                </td>
+                <td>
+                    <?php foreach ($club->visitor as $visitor): ?>
+                        <?php //TODO после теста заменить на количество человек в группе?>
+                        <?= $visitor->name; ?>
+<!--                        <a href="--><?//= Url::to(['club/exitVisitor', 'id' => $visitor->id]); ?><!--"><span class="glyphicon glyphicon-log-out"></span></a>-->
+                        <br>
+                    <?php endforeach; ?>
+                </td>
                 <td>
                     <a href="<?= Url::to(['club/view', 'id' => $club->id]); ?>"><?= Html::submitButton('Посмотреть', ['class' => 'btn btn-info']); ?></a>
                     <a href="<?= Url::to(['club/update', 'id' => $club->id]); ?>"><?= Html::submitButton('Изменить', ['class' => 'btn btn-warning']); ?></a>

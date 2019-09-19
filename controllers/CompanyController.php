@@ -51,8 +51,6 @@ class CompanyController extends AppController
 
     public function actionDelete($id)
     {
-//        $visitor = new Visitor();
-
         $this->findModel($id)->delete();
 
         return $this->redirect(['company/index']);

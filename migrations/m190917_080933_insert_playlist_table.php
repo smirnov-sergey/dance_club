@@ -20,6 +20,11 @@ class m190917_080933_insert_playlist_table extends Migration
             'id' => '3',
             'name' => 'pop',
         ]);
+
+        $this->insert('playlist', [
+            'id' => '4',
+            'name' => 'classic',
+        ]);
     }
 
     public function safeDown()
