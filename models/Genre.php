@@ -23,9 +23,11 @@ class Genre extends ActiveRecord
         return $this->hasMany(Track::class, ['genre_id' => 'id']);
     }
 
-    public function getVisitorGenre()
+    //Для связи c Visitor, через таблицу VisitorGenre
+    public function getVisitor()
     {
-        return $this->hasMany(VisitorGenre::class, ['genre_id' => 'id']);
+        return $this->hasMany(Visitor::class, ['id' => 'visitor_id'])
+            ->viaTable('visitor_genre', ['genre_id' => 'id']);
     }
 
     public function rules()
@@ -43,7 +45,7 @@ class Genre extends ActiveRecord
         ];
     }
 
-    //для выпадающего списка в форме заполнения Track
+    //для выпадающего списка в форме заполнения Track, Visitor
     public static function getDropDown()
     {
         return ArrayHelper::map(self::find()->all(), 'id', 'name');

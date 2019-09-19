@@ -22,9 +22,11 @@ class Track extends ActiveRecord
         return $this->hasOne(Genre::class, ['id' => 'genre_id']);
     }
 
-    public function getPlaylistTrack()
+    //Для связи c Playlist, через таблицу PlaylistTrack
+    public function getPlaylist()
     {
-        return $this->hasMany(PlaylistTrack::class, ['track_id' => 'id']);
+        return $this->hasMany(Playlist::class, ['id' => 'playlist_id'])
+            ->viaTable('playlist_track', ['track_id' => 'id']);
     }
 
     public function rules()

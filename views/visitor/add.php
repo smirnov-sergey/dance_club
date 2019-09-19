@@ -1,7 +1,8 @@
 <?php
 
-use app\models\Club;
+use app\models\Genre;
 use app\models\Company;
+use app\models\Club;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -22,8 +23,9 @@ $this->title = 'Посетитель';
             <?php $form = ActiveForm::begin(['id' => 'visitor-add-form']); ?>
             <?= $form->field($visitor, 'name')->textInput(['autofocus' => true, 'placeholder' => 'Введите имя']); ?>
             <?= $form->field($visitor, 'gender')->radioList(['мужской' => 'М', 'женский' => 'Ж']) ?>
-            <?= $form->field($visitor, 'club_id')->dropDownList(Club::getDropDown()); ?>
+            <?= $form->field($visitor, 'genre')->dropDownList(Genre::getDropDown()); ?>
             <?= $form->field($visitor, 'company_id')->dropDownList(Company::getDropDown()); ?>
+            <?= $form->field($visitor, 'club_id')->dropDownList(Club::getDropDown()); ?>
             <?= Html::submitButton('Добавить', ['class' => 'btn btn-primary', 'name' => 'login-button']); ?>
             <?php ActiveForm::end(); ?>
         </div>

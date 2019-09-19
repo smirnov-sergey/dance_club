@@ -8,6 +8,14 @@ FROM playlist AS p
   INNER JOIN track AS t
     ON pt.track_id = t.id
 
+// В контроллере
+$tracks = Playlist::find()
+    ->select('track.name')
+    ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
+    ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
+    ->where(['playlist.id' => $id])
+    ->all();
+
 // Для клуба
 SELECT
   club.name    AS club,
@@ -18,3 +26,21 @@ FROM club
     ON club.id = visitor.club_id
   INNER JOIN company
     ON visitor.company_id = company.id
+
+// Для посетителей
+SELECT
+  visitor.name AS visitors,
+  genre.name   AS genres
+FROM visitor
+  INNER JOIN visitor_genre
+    ON visitor.id = visitor_genre.visitor_id
+  INNER JOIN genre
+    ON visitor_genre.genre_id = genre.id
+
+// В контроллере
+$genres = Visitor::find()
+    ->select('genre.name')
+    ->innerJoin(VisitorGenre::tableName(), 'visitor.id = visitor_genre.visitor_id')
+    ->innerJoin(Genre::tableName(), 'visitor_genre.genre_id = genre.id')
+    ->where(['visitor.id' => $id])
+    ->all();

@@ -28,9 +28,11 @@ class Visitor extends ActiveRecord
         return $this->hasOne(Club::class, ['id' => 'club_id']);
     }
 
-    public function getVisitorGenre()
+    //Для связи c Genre, через таблицу VisitorGenre
+    public function getGenre()
     {
-        return $this->hasMany(VisitorGenre::class, ['visitor_id' => 'id']);
+        return $this->hasMany(Genre::class, ['id' => 'genre_id'])
+            ->viaTable('visitor_genre', ['visitor_id' => 'id']);
     }
 
     public function rules()
@@ -45,10 +47,11 @@ class Visitor extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => 'Имя',
+            'name' => 'Имя посетителя',
             'gender' => 'Пол',
             'club_id' => 'Клуб',
             'company_id' => 'Группа',
+            'genre_id' => 'Жанр музыки',
         ];
     }
 }

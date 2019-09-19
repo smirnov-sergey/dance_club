@@ -8,8 +8,9 @@
 
 namespace app\controllers;
 
-
 use app\models\Visitor;
+use app\models\VisitorGenre;
+use app\models\Genre;
 use Yii;
 use yii\web\NotFoundHttpException;
 
@@ -17,7 +18,7 @@ class VisitorController extends AppController
 {
     public function actionIndex()
     {
-        $visitors = Visitor::find()->with(['company', 'club'])->all();
+        $visitors = Visitor::find()->with(['company', 'club','genre'])->all();
 
         return $this->render('index', compact('visitors'));
     }
@@ -46,13 +47,15 @@ class VisitorController extends AppController
     {
         $visitor = $this->findModel($id);
 
+        $genres = $this->genreMusic($id);
+
         if ($visitor->load(Yii::$app->request->post()) && $visitor->validate()) {
             if ($visitor->save()) {
                 return $this->redirect(['visitor/index']);
             }
         }
 
-        return $this->render('update', compact('visitor'));
+        return $this->render('update', compact('visitor', 'genres'));
     }
 
     public function actionDelete($id)

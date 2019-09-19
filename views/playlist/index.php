@@ -20,7 +20,8 @@ $this->title = 'Плейлист';
         <thead class="thead-default">
         <tr>
             <th class="col-md-4">Название</th>
-            <th class="col-md-2">Действия</th>
+            <th class="col-md-4">Треки</th>
+            <th class="col-md-4">Действия</th>
         </tr>
         </thead>
         <tbody>
@@ -28,6 +29,11 @@ $this->title = 'Плейлист';
         <?php foreach ($playlists as $playlist): ?>
             <tr>
                 <td><?= $playlist->name; ?></td>
+                <td>
+                    <?php foreach ($playlist->track as $track): ?>
+                        <?= $track->name; ?><br>
+                    <?php endforeach; ?>
+                </td>
                 <td>
                     <a href="<?= Url::to(['playlist/view', 'id' => $playlist->id]); ?>"><?= Html::submitButton('Посмотреть', ['class' => 'btn btn-info']); ?></a>
                     <a href="<?= Url::to(['playlist/update', 'id' => $playlist->id]); ?>"><?= Html::submitButton('Изменить', ['class' => 'btn btn-warning']); ?></a>
@@ -40,5 +46,5 @@ $this->title = 'Плейлист';
 
         </tbody>
     </table>
-    <a href="<?= Url::to(['playlist/add' /*, 'id' => $playlist->id + 1 */]); ?>"> <?= Html::submitButton('Добавить', ['class' => 'btn btn-primary']); ?></a>
+    <a href="<?= Url::to(['playlist/add']); ?>"> <?= Html::submitButton('Добавить', ['class' => 'btn btn-primary']); ?></a>
 </div>

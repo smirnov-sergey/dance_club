@@ -1,0 +1,15 @@
+VisitorController
+            $genres = Visitor::find()
+                ->select('genre.name')
+                ->innerJoin(VisitorGenre::tableName(), 'visitor.id = visitor_genre.visitor_id')
+                ->innerJoin(Genre::tableName(), 'visitor_genre.genre_id = genre.id')
+                ->where(['visitor.id' => $id])
+                ->all();
+
+PlaylistController
+        $tracks = Playlist::find()
+            ->select('track.name')
+            ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
+            ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
+            ->where(['playlist.id' => $id])
+            ->all();

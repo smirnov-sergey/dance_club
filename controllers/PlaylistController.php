@@ -18,7 +18,7 @@ class PlaylistController extends AppController
 {
     public function actionIndex()
     {
-        $playlists = Playlist::find()->all();
+        $playlists = Playlist::find()->with(['track'])->all();
 
         return $this->render('index', compact('playlists'));
     }
@@ -27,14 +27,7 @@ class PlaylistController extends AppController
     {
         $playlist = $this->findModel($id);
 
-        $tracks = Playlist::find()
-            ->select('track.name')
-            ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
-            ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
-            ->where(['playlist.id' => $id])
-            ->all();
-
-        return $this->render('view', compact('playlist', 'tracks'));
+        return $this->render('view', compact('playlist'));
     }
 
     public function actionAdd()
