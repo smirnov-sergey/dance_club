@@ -8,7 +8,6 @@ $this->title = 'Плейлист';
 
 <title><?= Html::encode($this->title) ?></title>
 
-
 <div class="nav nav-pills">
     <a href="<?= Url::to(['playlist/index']); ?>"> <?= Html::submitButton('Все плейлисты', ['class' => 'btn btn-primary']); ?></a>
 </div>

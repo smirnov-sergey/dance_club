@@ -10,15 +10,6 @@ $this->title = 'Группа';
 
 <title><?= Html::encode($this->title) ?></title>
 
-<?php if (Yii::$app->session->hasFlash('warning')): ?>
-    <div class="alert alert-warning alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <?php echo Yii::$app->session->getFlash('warning') ?>
-    </div>
-<?php endif; ?>
-
 <div class="nav nav-pills">
     <a href="<?= Url::to(['company/index']); ?>"> <?= Html::submitButton('Все группы', ['class' => 'btn btn-primary']); ?></a>
 </div>

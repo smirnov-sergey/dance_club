@@ -8,12 +8,9 @@ $this->title = 'Трек';
 
 <title><?= Html::encode($this->title) ?></title>
 
-
 <div class="nav nav-pills">
     <a href="<?= Url::to(['track/index']); ?>"> <?= Html::submitButton('Все треки', ['class' => 'btn btn-primary']); ?></a>
 </div>
-
-
 
 <table class="table">
     <thead class="thead-default">

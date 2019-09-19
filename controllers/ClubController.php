@@ -14,7 +14,7 @@ use app\models\Company;
 use Yii;
 use yii\web\NotFoundHttpException;
 
-class ClubController  extends AppController
+class ClubController extends AppController
 {
     public function actionIndex()
     {
@@ -98,6 +98,4 @@ class ClubController  extends AppController
 
         return $this->render('search', compact('clubs', 'search'));
     }
-
-
 }
