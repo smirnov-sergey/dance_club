@@ -21,20 +21,17 @@ $this->title = 'Главная страница';
 
 <br><br>
 
-<div class="container text-center">
-    <a href="<?= Url::to(['dance-floor/index']); ?>"><?= Html::submitButton('Танцполы', ['class' => 'btn btn-default']); ?></a>
-</div>
+<!--<div class="container text-center">
+    <a href="<? /*= Url::to(['dance-floor/index']); */ ?>"><? /*= Html::submitButton('Танцполы', ['class' => 'btn btn-default']); */ ?></a>
+</div>-->
 
-<br><br><br>
+<br>
 
-<div class="row">
-    <div class="col-md-2 col-md-offset-4">
-        <?php $form = ActiveForm::begin(['id' => 'dance-index-form']); ?>
-        <?= $form->field($danceFloor, 'id')->dropDownList(Club::getDropDown()); ?>
-    </div>
-    <div class="col-md-2 offset-top">
-        <a href="<?= Url::to(['dance-floor/index', 'id' => $danceFloor->id]); ?>"><?= Html::submitButton('Посмотреть танцпол', ['class' => 'btn btn-info']); ?></a>
-        <?php ActiveForm::end(); ?>
-    </div>
-</div>
-
+<ul class="list-group col-md-2">
+    <h4>Список клубов</h4>
+    <?php foreach ($clubs as $club): ?>
+    <li class="list-group-item">
+        <a href="<?= Url::to(['club/view', 'id' => $club->id]); ?>"><?= $club->name; ?></a>
+        <?php endforeach; ?>
+    </li>
+</ul>

@@ -26,15 +26,22 @@ class DanceFloorController extends AppController
             ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
             ->all();
 
-
         $tracks = Club::find()
-            ->select(['track.name', 'club.name' ])
+            ->select(['track.name', 'club.name'])
             ->innerJoin(Playlist::tableName(), 'club.playlist_id = playlist.id')
             ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
             ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
             ->all();
 
-//        echo '<pre>' . print_r($tracks, true) . '</pre>';
+        $genres = Club::find()
+            ->select('genre.name')
+            ->innerJoin(Playlist::tableName(), 'club.playlist_id = playlist.id')
+            ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
+            ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
+            ->innerJoin(Genre::tableName(), 'track.genre_id = genre.id')
+            ->all();
+
+        // echo '<pre>' . print_r($tracks, true) . '</pre>';
 
         $arr = [];
 
@@ -49,20 +56,10 @@ class DanceFloorController extends AppController
             }
 
             $arr[$clubId][] = $trackName;
-
-
         }
-        echo '<pre>' . print_r($arr, true) . '</pre>';
 
-        $genres = Club::find()
-            ->select('genre.name')
-            ->innerJoin(Playlist::tableName(), 'club.playlist_id = playlist.id')
-            ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
-            ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
-            ->innerJoin(Genre::tableName(), 'track.genre_id = genre.id')
-            ->all();
+        // echo '<pre>' . print_r($arr, true) . '</pre>';
 
         return $this->render('index', compact('clubs', 'playlists', 'tracks', 'genres'));
     }
-
 }

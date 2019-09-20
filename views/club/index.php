@@ -14,7 +14,7 @@ $this->title = 'Клуб';
 </form>
 
 <div class="table-responsive">
-    <h3 class="text-center">Клуб</h3>
+    <h3 class="text-center">Клубы</h3>
 
     <table class="table">
         <thead class="thead-default">

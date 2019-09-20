@@ -49,9 +49,9 @@ class SiteController extends AppController
 
     public function actionIndex()
     {
-        $danceFloor = new Club();
+        $clubs = Club::find()->with('visitor', 'playlist', 'company')->all();
 
-        return $this->render('index', compact('danceFloor'));
+        return $this->render('index', compact('clubs'));
     }
 
 
