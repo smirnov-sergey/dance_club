@@ -36,6 +36,12 @@ class PlaylistController extends AppController
 
         if ($playlist->load(Yii::$app->request->post()) && $playlist->validate()) {
             if ($playlist->save()) {
+                //TODO Рефакторинг
+                $playlistTrack = new PlaylistTrack();
+                $playlistTrack->playlist_id = $playlist->id;
+                $playlistTrack->track_id = Yii::$app->request->post()['Playlist']['track'];
+                $playlistTrack->save();
+
                 return $this->redirect(['playlist/index']);
             }
         }
@@ -49,6 +55,11 @@ class PlaylistController extends AppController
 
         if ($playlist->load(Yii::$app->request->post()) && $playlist->validate()) {
             if ($playlist->save()) {
+                $playlistTrack = new PlaylistTrack();
+                $playlistTrack->playlist_id = $playlist->id;
+                $playlistTrack->track_id = Yii::$app->request->post()['Playlist']['track'];
+                $playlistTrack->save();
+
                 return $this->redirect(['playlist/index']);
             }
         }

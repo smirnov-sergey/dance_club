@@ -8,7 +8,6 @@
 
 namespace app\models;
 
-
 use yii\db\ActiveRecord;
 
 class PlaylistTrack extends ActiveRecord
@@ -34,5 +33,4 @@ class PlaylistTrack extends ActiveRecord
             [['playlist_id', 'track_id'], 'safe'],
         ];
     }
-
 }

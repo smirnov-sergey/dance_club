@@ -9,6 +9,7 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 class Track extends ActiveRecord
 {
@@ -20,6 +21,11 @@ class Track extends ActiveRecord
     public function getGenre()
     {
         return $this->hasOne(Genre::class, ['id' => 'genre_id']);
+    }
+
+    public function getPlaylistTrack()
+    {
+        return $this->hasMany(PlaylistTrack::class, ['track_id' => 'id']);
     }
 
     //Для связи c Playlist, через таблицу PlaylistTrack
@@ -43,6 +49,12 @@ class Track extends ActiveRecord
             'name' => 'Название трека',
             'genre_id' => 'Жанр музыки',
         ];
+    }
+
+    //для выпадающего списка в форме заполнения Playlist
+    public static function getDropDown()
+    {
+        return ArrayHelper::map(self::find()->all(), 'id', 'name');
     }
 
 }

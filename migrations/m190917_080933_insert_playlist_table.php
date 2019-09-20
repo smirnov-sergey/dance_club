@@ -8,22 +8,22 @@ class m190917_080933_insert_playlist_table extends Migration
     {
         $this->insert('playlist', [
             'id' => '1',
-            'name' => 'romance',
+            'name' => 'playlist #1',
         ]);
 
         $this->insert('playlist', [
             'id' => '2',
-            'name' => 'rock',
+            'name' => 'playlist #2',
         ]);
 
         $this->insert('playlist', [
             'id' => '3',
-            'name' => 'pop',
+            'name' => 'playlist #3',
         ]);
 
         $this->insert('playlist', [
             'id' => '4',
-            'name' => 'classic',
+            'name' => 'playlist #4',
         ]);
     }
 

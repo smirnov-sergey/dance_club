@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Track;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -19,6 +20,7 @@ $this->title = 'Плейлист';
         <div class="col-md-4">
             <?php $form = ActiveForm::begin(['id' => 'playlist-update-form']); ?>
             <?= $form->field($playlist, 'name')->textInput(); ?>
+            <?= $form->field($playlist, 'track')->dropDownList(Track::getDropDown()); ?>
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'name' => 'login-button']); ?>
             <?php ActiveForm::end(); ?>
         </div>

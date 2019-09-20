@@ -18,7 +18,7 @@ class VisitorController extends AppController
 {
     public function actionIndex()
     {
-        $visitors = Visitor::find()->with(['company', 'club','genre'])->all();
+        $visitors = Visitor::find()->with(['company', 'club', 'genre'])->all();
 
         return $this->render('index', compact('visitors'));
     }
@@ -36,6 +36,12 @@ class VisitorController extends AppController
 
         if ($visitor->load(Yii::$app->request->post()) && $visitor->validate()) {
             if ($visitor->save()) {
+                //TODO Рефакторинг
+                $visitorGenre = new VisitorGenre();
+                $visitorGenre->visitor_id = $visitor->id;
+                $visitorGenre->genre_id = Yii::$app->request->post()['Visitor']['genre'];
+                $visitorGenre->save();
+
                 return $this->redirect(['visitor/index']);
             }
         }
@@ -49,6 +55,12 @@ class VisitorController extends AppController
 
         if ($visitor->load(Yii::$app->request->post()) && $visitor->validate()) {
             if ($visitor->save()) {
+                $visitorGenre = new VisitorGenre();
+                $visitorGenre->visitor_id = $visitor->id;
+                $visitorGenre->genre_id = Yii::$app->request->post()['Visitor']['genre'];
+
+                $visitorGenre->save();
+
                 return $this->redirect(['visitor/index']);
             }
         }

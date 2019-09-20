@@ -18,6 +18,16 @@ class Playlist extends ActiveRecord
         return 'playlist';
     }
 
+    public function getClub()
+    {
+        return $this->hasMany(Club::class, ['playlist_id' => 'id']);
+    }
+
+    public function getPlaylistTrack()
+    {
+        return $this->hasMany(PlaylistTrack::class, ['playlist_id' => 'id']);
+    }
+
     //Для связи c Track, через таблицу PlaylistTrack
     public function getTrack()
     {
@@ -25,15 +35,10 @@ class Playlist extends ActiveRecord
             ->viaTable('playlist_track', ['playlist_id' => 'id']);
     }
 
-    public function getClub()
-    {
-        return $this->hasMany(Club::class, ['playlist_id' => 'id']);
-    }
-
     public function rules()
     {
         return [
-            [['id', 'name'], 'safe'],
+            [['id'], 'safe'],
             [['name'], 'string', 'min' => 3, 'max' => 255],
 
         ];
@@ -43,6 +48,7 @@ class Playlist extends ActiveRecord
     {
         return [
             'name' => 'Название плейлиста',
+            'track' => 'Треки',
         ];
     }
 

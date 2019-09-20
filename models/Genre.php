@@ -23,6 +23,11 @@ class Genre extends ActiveRecord
         return $this->hasMany(Track::class, ['genre_id' => 'id']);
     }
 
+    public function getVisitorGenre()
+    {
+        return $this->hasMany(VisitorGenre::class, ['genre_id' => 'id']);
+    }
+
     //Для связи c Visitor, через таблицу VisitorGenre
     public function getVisitor()
     {
@@ -41,6 +46,7 @@ class Genre extends ActiveRecord
     public function attributeLabels()
     {
         return [
+            'id' => 'id жанра музыки',
             'name' => 'Название жанра музыки',
         ];
     }

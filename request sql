@@ -27,6 +27,19 @@ FROM club
   INNER JOIN company
     ON visitor.company_id = company.id
 
+// Для клуба просмотра треков
+SELECT
+  club.name     AS playlist,
+  playlist.name AS playlist,
+  track.name    AS track
+FROM club
+  INNER JOIN playlist
+    ON club.playlist_id = playlist.id
+  INNER JOIN playlist_track
+    ON playlist.id = playlist_track.playlist_id
+  INNER JOIN track
+    ON playlist_track.track_id = track.id
+
 // Для клуба выход групп, посетителей
 UPDATE visitor
   JOIN club

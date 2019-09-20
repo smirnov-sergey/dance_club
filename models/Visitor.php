@@ -35,6 +35,11 @@ class Visitor extends ActiveRecord
             ->viaTable('visitor_genre', ['visitor_id' => 'id']);
     }
 
+    public function getVisitorGenre()
+    {
+        return $this->hasMany(VisitorGenre::class, ['visitor_id' => 'id']);
+    }
+
     public function rules()
     {
         return [
@@ -51,7 +56,7 @@ class Visitor extends ActiveRecord
             'gender' => 'Пол',
             'club_id' => 'Клуб',
             'company_id' => 'Группа',
-            'genre_id' => 'Жанр музыки',
+            'genre' => 'Жанр музыки',
         ];
     }
 }

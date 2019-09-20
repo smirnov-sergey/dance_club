@@ -35,7 +35,9 @@ $this->title = 'Клуб';
                 <td>
                     <?php foreach ($club->company as $company): ?>
                         <?= $company->name; ?>
-                        <a href="<?= Url::to(['club/exitCompany', 'id' => $company->id]); ?>"><span class="glyphicon glyphicon-log-out"></span></a>
+                        <a href="<?= Url::to(['club/exit-company', 'company_id' => $company->id, 'club_id' => $club->id]); ?>">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                        </a>
                         <br>
                     <?php endforeach; ?>
                 </td>
@@ -43,7 +45,9 @@ $this->title = 'Клуб';
                     <?php foreach ($club->visitor as $visitor): ?>
                         <?php //TODO после теста заменить на количество человек в группе?>
                         <?= $visitor->name; ?>
-<!--                        <a href="--><?//= Url::to(['club/exitVisitor', 'id' => $visitor->id]); ?><!--"><span class="glyphicon glyphicon-log-out"></span></a>-->
+                        <a href="<?= Url::to(['club/exit-visitor', 'visitor_id' => $visitor->id, 'club_id' => $club->id]); ?>">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                        </a>
                         <br>
                     <?php endforeach; ?>
                 </td>

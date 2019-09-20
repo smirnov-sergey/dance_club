@@ -53,6 +53,7 @@ class Club extends ActiveRecord
     public function attributeLabels()
     {
         return [
+            'id' => 'Выберите клуб',
             'name' => 'Название клуба',
             'playlist_id' => 'Выбрать плейлист',
         ];

@@ -27,6 +27,7 @@ class ClubController extends AppController
     {
         $club = $this->findModel($id);
 
+        //TODO: не показывает посетителей, если у него нет группы
         $visitors = Club::find()
             ->select('visitor.name')
             ->innerJoin(Visitor::tableName(), 'club.id = visitor.club_id')
@@ -46,7 +47,7 @@ class ClubController extends AppController
 
     public function actionAdd()
     {
-        //TODO Нужен тест, если плейлист не существует, значение по умолчанию defaultValue('Плейлист пуст'),
+        //TODO: Нужен тест, если плейлист не существует, значение по умолчанию defaultValue('Плейлист пуст'),
         $club = new Club();
 
         if ($club->load(Yii::$app->request->post()) && $club->validate()) {
@@ -78,33 +79,26 @@ class ClubController extends AppController
         return $this->redirect(['club/index']);
     }
 
-    public function actionExitVisitor($id)
+    public function actionExitVisitor($visitor_id, $club_id)
     {
-        $this->findModel($id);
+        $this->findModel($club_id);
 
-        Yii::$app->db->createCommand()->update('visitor', ['club_id' => 1], ['club_id' => $id])->execute();
+        // Выходит Visitor
+        Yii::$app->db->createCommand(
+            "UPDATE visitor JOIN club ON club.id = visitor.club_id INNER JOIN company ON visitor.company_id = company.id SET visitor.company_id = NULL, visitor.club_id = NULL WHERE visitor.id = $visitor_id;")
+            ->execute();
 
         return $this->redirect(['club/index']);
     }
 
-    public function actionExitCompany($id)
+    public function actionExitCompany($company_id, $club_id)
     {
-        $this->findModel($id);
+        $this->findModel($club_id);
 
-        Yii::$app->db->createCommand()->update('visitor', ['club_id' => null, 'company_id' => null], ['company.id' => $id])->execute();
-
+        // Выходит Company
         Yii::$app->db->createCommand(
-            "UPDATE visitor JOIN club ON club.id = visitor.club_id INNER JOIN company ON visitor.company_id = company.id SET visitor.company_id = NULL, visitor.club_id = NULL WHERE company.id = $id;")
+            "UPDATE visitor JOIN club ON club.id = visitor.club_id INNER JOIN company ON visitor.company_id = company.id SET visitor.company_id = NULL, visitor.club_id = NULL WHERE company.id = $company_id;")
             ->execute();
-
-        /*  UPDATE visitor
-                JOIN club
-                    ON club.id = visitor.club_id
-                INNER JOIN company
-                    ON visitor.company_id = company.id
-                SET visitor.company_id = NULL,
-                    visitor.club_id      = NULL
-                        WHERE company.id = 2;*/
 
         return $this->redirect(['club/index']);
     }

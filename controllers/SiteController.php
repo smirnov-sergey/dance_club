@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\Club;
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
@@ -49,7 +49,9 @@ class SiteController extends AppController
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $danceFloor = new Club();
+
+        return $this->render('index', compact('danceFloor'));
     }
 
 
