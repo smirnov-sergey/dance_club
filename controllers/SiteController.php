@@ -54,7 +54,6 @@ class SiteController extends AppController
         return $this->render('index', compact('clubs'));
     }
 
-
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {

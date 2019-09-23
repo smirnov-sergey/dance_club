@@ -21,7 +21,7 @@ $this->title = 'Клуб';
         <tr>
             <th class="col-md-2">Название клуба</th>
             <th class="col-md-2">Плейлист</th>
-            <th class="col-md-2">Группа</th>
+            <th class="col-md-2">Группы</th>
             <th class="col-md-2">Посетители</th>
             <th class="col-md-4">Действия</th>
         </tr>
@@ -33,23 +33,18 @@ $this->title = 'Клуб';
                 <td><?= $club->name; ?></td>
                 <td><?= $club->playlist->name; ?></td>
                 <td>
-                    <?php foreach ($club->company as $company): ?>
-                        <?= $company->name; ?>
-                        <a href="<?= Url::to(['club/exit-company', 'company_id' => $company->id, 'club_id' => $club->id]); ?>">
-                            <span class="glyphicon glyphicon-log-out"></span>
-                        </a>
-                        <br>
+                    <?php $count = 0;
+                    foreach ($club->company as $company): ?>
+                        <?php $count++; ?>
                     <?php endforeach; ?>
+                    <?= $count; ?>
                 </td>
                 <td>
-                    <?php foreach ($club->visitor as $visitor): ?>
-                        <?php //TODO после теста заменить на количество человек в группе?>
-                        <?= $visitor->name; ?>
-                        <a href="<?= Url::to(['club/exit-visitor', 'visitor_id' => $visitor->id, 'club_id' => $club->id]); ?>">
-                            <span class="glyphicon glyphicon-log-out"></span>
-                        </a>
-                        <br>
+                    <?php $count = 0;
+                    foreach ($club->visitor as $visitor): ?>
+                        <?php $count++; ?>
                     <?php endforeach; ?>
+                    <?= $count; ?>
                 </td>
                 <td>
                     <a href="<?= Url::to(['club/view', 'id' => $club->id]); ?>"><?= Html::submitButton('Посмотреть', ['class' => 'btn btn-info']); ?></a>

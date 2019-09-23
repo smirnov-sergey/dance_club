@@ -34,6 +34,7 @@ class VisitorController extends AppController
     {
         $visitor = new Visitor();
 
+        //TODO: сделать выбор нескольких жанров музыки.
         if ($visitor->load(Yii::$app->request->post()) && $visitor->validate()) {
             if ($visitor->save()) {
                 //TODO Рефакторинг
@@ -53,6 +54,7 @@ class VisitorController extends AppController
     {
         $visitor = $this->findModel($id);
 
+        //TODO: При изменение старые жанры музыки удаляются, новые сохраняются
         if ($visitor->load(Yii::$app->request->post()) && $visitor->validate()) {
             if ($visitor->save()) {
                 $visitorGenre = new VisitorGenre();

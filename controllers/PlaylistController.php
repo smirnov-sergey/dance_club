@@ -8,6 +8,7 @@
 
 namespace app\controllers;
 
+use app\models\Genre;
 use app\models\Playlist;
 use app\models\PlaylistTrack;
 use app\models\Track;
@@ -27,13 +28,22 @@ class PlaylistController extends AppController
     {
         $playlist = $this->findModel($id);
 
-        return $this->render('view', compact('playlist'));
+        $genres = Playlist::find()
+            ->select('genre.name')
+            ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
+            ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
+            ->innerJoin(Genre::tableName(), 'track.genre_id = genre.id')
+            ->where(['playlist.id' => $id])
+            ->all();
+
+        return $this->render('view', compact('playlist', 'genres'));
     }
 
     public function actionAdd()
     {
         $playlist = new Playlist();
 
+        //TODO: сделать выбор нескольких треков музыки.
         if ($playlist->load(Yii::$app->request->post()) && $playlist->validate()) {
             if ($playlist->save()) {
                 //TODO Рефакторинг
@@ -53,6 +63,7 @@ class PlaylistController extends AppController
     {
         $playlist = $this->findModel($id);
 
+        //TODO: При изменение старые треки музыки удаляются, новые сохраняются
         if ($playlist->load(Yii::$app->request->post()) && $playlist->validate()) {
             if ($playlist->save()) {
                 $playlistTrack = new PlaylistTrack();

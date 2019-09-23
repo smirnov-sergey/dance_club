@@ -15,11 +15,16 @@ $this->title = 'Клуб';
 <h3 class="text-center">Клуб</h3>
 <br>
 
+<div class="container text-center">
+    <a href="<?= Url::to(['club/dance-floor', 'id' => $club->id]); ?>"><?= Html::submitButton('Танцпол', ['class' => 'btn btn-warning']); ?></a>
+</div>
+
 <table class="table">
     <thead class="thead-default">
     <tr>
         <th class="col-md-2"><h5>Название клуба</h5></th>
         <th class="col-md-2"><h5>Плейлист</h5></th>
+        <th class="col-md-2"><h5>Жанр</h5></th>
         <th class="col-md-2"><h5>Посетители</h5></th>
         <th class="col-md-2"><h5>Группа</h5></th>
     </tr>
@@ -30,18 +35,34 @@ $this->title = 'Клуб';
         <td><h3><?= $club->playlist->name; ?></h3></td>
         <td>
             <h3>
-                <?php foreach ($visitors as $visitor): ?>
-                    <?= $visitor->name; ?><br>
+            <?php foreach ($genres as $genre): ?>
+                <?= $genre->name; ?><br>
+            <?php endforeach; ?>
+            </h3>
+        </td>
+        <td>
+            <h3>
+                <?php foreach ($club->visitor as $visitor): ?>
+                    <?= $visitor->name; ?>
+                    <a href="<?= Url::to(['club/exit-visitor', 'visitor_id' => $visitor->id, 'club_id' => $club->id]); ?>">
+                        <span class="glyphicon glyphicon-log-out"></span>
+                    </a>
+                    <br>
                 <?php endforeach; ?>
             </h3>
         </td>
         <td>
             <h3>
-                <?php foreach ($companies as $company): ?>
-                    <?= $company->name; ?><br>
+                <?php foreach ($club->company as $company): ?>
+                    <?= $company->name; ?>
+                    <a href="<?= Url::to(['club/exit-company', 'company_id' => $company->id, 'club_id' => $club->id]); ?>">
+                        <span class="glyphicon glyphicon-log-out"></span>
+                    </a>
+                    <br>
                 <?php endforeach; ?>
             </h3>
         </td>
     </tr>
     </tbody>
 </table>
+

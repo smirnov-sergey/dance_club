@@ -13,3 +13,27 @@ PlaylistController
             ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
             ->where(['playlist.id' => $id])
             ->all();
+
+
+//старый код, аналог решения
+class ClubController
+    public function actionView($id)
+    {
+        $club = $this->findModel($id);
+
+        $visitors = Club::find()
+            ->select('visitor.name')
+            ->innerJoin(Visitor::tableName(), 'club.id = visitor.club_id')
+            ->innerJoin(Company::tableName(), 'visitor.company_id = company.id')
+            ->where(['club.id' => $id])
+            ->all();
+
+        $companies = Club::find()
+            ->select('company.name')
+            ->innerJoin(Visitor::tableName(), 'club.id = visitor.club_id')
+            ->innerJoin(Company::tableName(), 'visitor.company_id = company.id')
+            ->where(['club.id' => $id])
+            ->all();
+
+        return $this->render('view', compact('club', 'visitors', 'companies'));
+    }

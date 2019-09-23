@@ -21,7 +21,8 @@ $this->title = 'Треки';
         <tr>
             <th class="col-md-2">Название</th>
             <th class="col-md-2">Жанр музыки</th>
-            <th class="col-md-2">Действия</th>
+            <th class="col-md-2">Продолжительность</th>
+            <th class="col-md-4">Действия</th>
         </tr>
         </thead>
         <tbody>
@@ -30,6 +31,7 @@ $this->title = 'Треки';
             <tr>
                 <td><?= $track->name; ?></td>
                 <td><?= $track->genre->name; ?></td>
+                <td><?= $track->duration; ?> секунд</td>
                 <td>
                     <a href="<?= Url::to(['track/view', 'id' => $track->id]); ?>"><?= Html::submitButton('Посмотреть', ['class' => 'btn btn-info']); ?></a>
                     <a href="<?= Url::to(['track/update', 'id' => $track->id]); ?>"><?= Html::submitButton('Изменить', ['class' => 'btn btn-warning']); ?></a>

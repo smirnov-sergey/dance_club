@@ -30,9 +30,12 @@ $this->title = 'Плейлист';
             <tr>
                 <td><?= $playlist->name; ?></td>
                 <td>
-                    <?php foreach ($playlist->track as $track): ?>
-                        <?= $track->name; ?><br>
+                    <?php $count = 0;
+                    foreach ($playlist->track as $track): ?>
+                        <?php $count++; ?>
                     <?php endforeach; ?>
+                    <?= $count; ?>
+
                 </td>
                 <td>
                     <a href="<?= Url::to(['playlist/view', 'id' => $playlist->id]); ?>"><?= Html::submitButton('Посмотреть', ['class' => 'btn btn-info']); ?></a>

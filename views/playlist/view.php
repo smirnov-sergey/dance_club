@@ -17,6 +17,7 @@ $this->title = 'Плейлист';
     <tr>
         <th class="col-md-2"><h5>Название плейлиста</h5></th>
         <th class="col-md-4"><h5>Треки</h5></th>
+        <th class="col-md-4"><h5>Жанр музыки</h5></th>
     </tr>
     </thead>
     <tbody>
@@ -26,6 +27,13 @@ $this->title = 'Плейлист';
             <h3>
                 <?php foreach ($playlist->track as $track): ?>
                     <?= $track->name; ?><br>
+                <?php endforeach; ?>
+            </h3>
+        </td>
+        <td>
+            <h3>
+                <?php foreach ($genres as $genre): ?>
+                    <?= $genre->name; ?><br>
                 <?php endforeach; ?>
             </h3>
         </td>

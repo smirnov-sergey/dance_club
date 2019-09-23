@@ -9,6 +9,10 @@
 namespace app\controllers;
 
 use app\models\Club;
+use app\models\Genre;
+use app\models\Playlist;
+use app\models\PlaylistTrack;
+use app\models\Track;
 use app\models\Visitor;
 use app\models\Company;
 use Yii;
@@ -27,22 +31,16 @@ class ClubController extends AppController
     {
         $club = $this->findModel($id);
 
-        //TODO: не показывает посетителей, если у него нет группы
-        $visitors = Club::find()
-            ->select('visitor.name')
-            ->innerJoin(Visitor::tableName(), 'club.id = visitor.club_id')
-            ->innerJoin(Company::tableName(), 'visitor.company_id = company.id')
+        $genres = Club::find()
+            ->select('genre.name')
+            ->innerJoin(Playlist::tableName(), 'playlist.id = club.playlist_id')
+            ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
+            ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
+            ->innerJoin(Genre::tableName(), 'track.genre_id = genre.id')
             ->where(['club.id' => $id])
             ->all();
 
-        $companies = Club::find()
-            ->select('company.name')
-            ->innerJoin(Visitor::tableName(), 'club.id = visitor.club_id')
-            ->innerJoin(Company::tableName(), 'visitor.company_id = company.id')
-            ->where(['club.id' => $id])
-            ->all();
-
-        return $this->render('view', compact('club', 'visitors', 'companies'));
+        return $this->render('view', compact('club', 'genres'));
     }
 
     public function actionAdd()
@@ -79,16 +77,39 @@ class ClubController extends AppController
         return $this->redirect(['club/index']);
     }
 
+    public function actionDanceFloor($id)
+    {
+        $club = $this->findModel($id);
+
+        $genres = Club::find()
+            ->select('genre.name')
+            ->innerJoin(Playlist::tableName(), 'playlist.id = club.playlist_id')
+            ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
+            ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
+            ->innerJoin(Genre::tableName(), 'track.genre_id = genre.id')
+            ->where(['club.id' => $id])
+            ->all();
+
+        $danceGenre = new Genre();
+
+        if ($club->visitor->visitorGenre->genre_id == $danceGenre->id) {
+            $dance = 'Да';
+        } else $dance = 'Нет';
+
+
+        return $this->render('dance-floor', compact('club', 'genres', 'dance'));
+    }
+
     public function actionExitVisitor($visitor_id, $club_id)
     {
         $this->findModel($club_id);
 
         // Выходит Visitor
         Yii::$app->db->createCommand(
-            "UPDATE visitor JOIN club ON club.id = visitor.club_id INNER JOIN company ON visitor.company_id = company.id SET visitor.company_id = NULL, visitor.club_id = NULL WHERE visitor.id = $visitor_id;")
+            "UPDATE visitor JOIN club ON club.id = visitor.club_id SET visitor.company_id = NULL, visitor.club_id = NULL WHERE visitor.id = $visitor_id;")
             ->execute();
 
-        return $this->redirect(['club/index']);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionExitCompany($company_id, $club_id)
@@ -100,7 +121,7 @@ class ClubController extends AppController
             "UPDATE visitor JOIN club ON club.id = visitor.club_id INNER JOIN company ON visitor.company_id = company.id SET visitor.company_id = NULL, visitor.club_id = NULL WHERE company.id = $company_id;")
             ->execute();
 
-        return $this->redirect(['club/index']);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     //поиск записи в таблице
