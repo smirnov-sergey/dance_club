@@ -103,13 +103,13 @@ class ClubController extends AppController
         // найти всех посетителей, которые танцуют данный жанр
         $dancers = Club::find()
             ->select(['visitor.name'])
-            ->distinct(['visitor.id'])
+            ->distinct(['visitor.id', 'visitor_genre.genre_id'])
             ->innerJoin(Playlist::tableName(), 'playlist.id = club.playlist_id')
             ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
             ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
-            ->innerJoin(Genre::tableName(), 'track.genre_id = genre.id')
             ->innerJoin(Visitor::tableName(), 'club.id = visitor.club_id')
             ->innerJoin(VisitorGenre::tableName(), 'visitor.id = visitor_genre.visitor_id')
+            ->innerJoin(Genre::tableName(), 'visitor_genre.genre_id = genre.id')
             ->where(['club.id' => $id])
             ->all();
 
@@ -119,7 +119,7 @@ class ClubController extends AppController
             $soloDance[] = $dancer->name;
         }
 
-      //  echo '<pre>' . print_r($dancers, true) . '</pre>';
+        // echo '<pre>' . print_r($soloDance, true) . '</pre>';
 
         // найти всех посетителей, которые танцуют данный жанр, если посетитель М
         $man = Club::find()

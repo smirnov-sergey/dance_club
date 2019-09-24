@@ -39,18 +39,21 @@ $this->title = 'Танцпол';
             </td>
             <td>
                 <?php foreach ($genres as $genre): ?>
-                    <?= $genre->name; ?><br>
-                <?php endforeach; ?>
-            </td>
+                <?= $genre->name; ?><br>
             <td>
+                <?php if ($genre->id !== 'romance') : ?>
                     <?php foreach ($soloDance as $dance): ?>
                         <?= $dance; ?><br>
                     <?php endforeach; ?>
+                <?php endif; ?>
             </td>
             <td>
                 <?php foreach ($couples as $couple): ?>
                     <?= $couple; ?><br>
                 <?php endforeach; ?>
+
+                <?php endforeach; ?>
+            </td>
             </td>
         </tr>
         </tbody>
