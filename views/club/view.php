@@ -24,6 +24,7 @@ $this->title = 'Клуб';
     <tr>
         <th class="col-md-2"><h5>Название клуба</h5></th>
         <th class="col-md-2"><h5>Плейлист</h5></th>
+        <th class="col-md-2"><h5>Треки</h5></th>
         <th class="col-md-2"><h5>Жанр</h5></th>
         <th class="col-md-2"><h5>Посетители</h5></th>
         <th class="col-md-2"><h5>Группа</h5></th>
@@ -33,6 +34,17 @@ $this->title = 'Клуб';
     <tr>
         <td><h3><?= $club->name; ?></h3></td>
         <td><h3><?= $club->playlist->name; ?></h3></td>
+        <td>
+            <h3>
+                <?php foreach ($club->playlist->track as $track): ?>
+                    <?= $track->name; ?><br>
+                <?php endforeach; ?>
+
+                <?php /*foreach ($tracks as $track): */?><!--
+                    <?/*= $track->name; */?><br>
+                --><?php /*endforeach; */?>
+            </h3>
+        </td>
         <td>
             <h3>
             <?php foreach ($genres as $genre): ?>

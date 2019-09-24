@@ -15,6 +15,7 @@ use app\models\PlaylistTrack;
 use app\models\Track;
 use app\models\Visitor;
 use app\models\Company;
+use app\models\VisitorGenre;
 use Yii;
 use yii\web\NotFoundHttpException;
 
@@ -31,6 +32,14 @@ class ClubController extends AppController
     {
         $club = $this->findModel($id);
 
+        $tracks = Club::find()
+            ->select('track.name')
+            ->innerJoin(Playlist::tableName(), 'playlist.id = club.playlist_id')
+            ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
+            ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
+            ->where(['club.id' => $id])
+            ->all();
+
         $genres = Club::find()
             ->select('genre.name')
             ->innerJoin(Playlist::tableName(), 'playlist.id = club.playlist_id')
@@ -40,7 +49,7 @@ class ClubController extends AppController
             ->where(['club.id' => $id])
             ->all();
 
-        return $this->render('view', compact('club', 'genres'));
+        return $this->render('view', compact('club', 'genres', 'tracks'));
     }
 
     public function actionAdd()
@@ -81,8 +90,9 @@ class ClubController extends AppController
     {
         $club = $this->findModel($id);
 
+        // Найти жанр музыки в плейлисте данного клуба
         $genres = Club::find()
-            ->select('genre.name')
+            ->select(['genre.name', 'genre.id'])
             ->innerJoin(Playlist::tableName(), 'playlist.id = club.playlist_id')
             ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
             ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
@@ -90,14 +100,67 @@ class ClubController extends AppController
             ->where(['club.id' => $id])
             ->all();
 
-        $danceGenre = new Genre();
+        // найти всех посетителей, которые танцуют данный жанр
+        $dancers = Club::find()
+            ->select(['visitor.name'])
+            ->distinct(['visitor.id'])
+            ->innerJoin(Playlist::tableName(), 'playlist.id = club.playlist_id')
+            ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
+            ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
+            ->innerJoin(Genre::tableName(), 'track.genre_id = genre.id')
+            ->innerJoin(Visitor::tableName(), 'club.id = visitor.club_id')
+            ->innerJoin(VisitorGenre::tableName(), 'visitor.id = visitor_genre.visitor_id')
+            ->where(['club.id' => $id])
+            ->all();
 
-        if ($club->visitor->visitorGenre->genre_id == $danceGenre->id) {
-            $dance = 'Да';
-        } else $dance = 'Нет';
+        //TODO добавить правило на genre.name = 'romance' не выводить.
+        // танцоры соло
+        foreach ($dancers as $dancer) {
+            $soloDance[] = $dancer->name;
+        }
 
+      //  echo '<pre>' . print_r($dancers, true) . '</pre>';
 
-        return $this->render('dance-floor', compact('club', 'genres', 'dance'));
+        // найти всех посетителей, которые танцуют данный жанр, если посетитель М
+        $man = Club::find()
+            ->select(['visitor.name'])
+            ->distinct(['visitor.id'])
+            ->innerJoin(Playlist::tableName(), 'playlist.id = club.playlist_id')
+            ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
+            ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
+            ->innerJoin(Genre::tableName(), 'track.genre_id = genre.id')
+            ->innerJoin(Visitor::tableName(), 'club.id = visitor.club_id')
+            ->innerJoin(VisitorGenre::tableName(), 'visitor.id = visitor_genre.visitor_id')
+            ->where(['club.id' => $id, 'visitor.gender' => 'мужской'])
+            ->all();
+
+        // найти всех посетителей, которые танцуют данный жанр, если посетитель Ж
+        $woman = Club::find()
+            ->select(['visitor.name'])
+            ->distinct(['visitor.id'])
+            ->innerJoin(Playlist::tableName(), 'playlist.id = club.playlist_id')
+            ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
+            ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
+            ->innerJoin(Genre::tableName(), 'track.genre_id = genre.id')
+            ->innerJoin(Visitor::tableName(), 'club.id = visitor.club_id')
+            ->innerJoin(VisitorGenre::tableName(), 'visitor.id = visitor_genre.visitor_id')
+            ->where(['club.id' => $id, 'visitor.gender' => 'женский'])
+            ->all();
+
+        foreach ($man as $manName) {
+            $manNames[] = $manName->name;
+        }
+
+        foreach ($woman as $womanName) {
+            $womanNames[] = $womanName->name;
+        }
+
+        // создать пары
+        for ($i = 0; $i <= min(count($manNames), count($womanNames)); $i++) {
+            $couples[] = $manNames[$i] . ' + ' . $womanNames[$i];
+        }
+
+        return $this->render('dance-floor', compact('club', 'genres', 'soloDance', 'couples'));
     }
 
     public function actionExitVisitor($visitor_id, $club_id)

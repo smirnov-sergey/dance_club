@@ -37,3 +37,40 @@ class ClubController
 
         return $this->render('view', compact('club', 'visitors', 'companies'));
     }
+
+            //TODO: собрать пары по гендерной принадлежности (М+Ж)
+            // visitor, пары танцующих
+
+            //достать всех посетителей клуба
+            foreach ($club->visitor as $visitor) {
+
+                //достать из таблицы visitor_genre жанры, которые танцуют посетители
+                foreach ($visitor->visitorGenre as $visitorGenre) {
+
+                    // достать все жанры из таблицы genre
+                    foreach ($genres as $genre) {
+
+                        // найти всех посетителей, которые танцуют данный жанр
+                        if ($visitorGenre->genre_id == $genre->id) {
+
+                            // если посетитель М, записать в массив $man
+                            if ($visitorGenre->visitor->gender = 'мужской') {
+                                $man[] = $visitor->name;
+                            }
+
+                            // если посетитель Ж, записать в массив $woman
+                            if ($visitorGenre->gender = 'женский') {
+                                $woman[] = $visitor->name;
+                            }
+
+                            //объединить массивы $man, $woman
+                            $couple = array_merge($man, $woman);
+
+                            //если больше одного человека, то собрать пару
+                            if (count($couple) > 2) {
+                                $couples = implode(' + ', $couple);
+                            }
+                        }
+                    }
+                }
+            }
