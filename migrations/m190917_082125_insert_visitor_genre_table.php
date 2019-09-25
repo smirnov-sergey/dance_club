@@ -8,7 +8,7 @@ class m190917_082125_insert_visitor_genre_table extends Migration
     {
         $this->insert('visitor_genre', [
             'visitor_id' => '1',
-            'genre_id' => '1',
+            'genre_id' => '3',
         ]);
 
         $this->insert('visitor_genre', [

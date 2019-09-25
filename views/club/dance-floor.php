@@ -40,19 +40,15 @@ $this->title = 'Танцпол';
             <td>
                 <?php foreach ($genres as $genre): ?>
                 <?= $genre->name; ?><br>
+                <?php endforeach; ?>
             <td>
-                <?php if ($genre->id !== 'romance') : ?>
-                    <?php foreach ($soloDance as $dance): ?>
-                        <?= $dance; ?><br>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                    Заглушка
             </td>
             <td>
                 <?php foreach ($couples as $couple): ?>
                     <?= $couple; ?><br>
                 <?php endforeach; ?>
 
-                <?php endforeach; ?>
             </td>
             </td>
         </tr>

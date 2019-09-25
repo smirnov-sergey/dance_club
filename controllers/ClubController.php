@@ -32,6 +32,7 @@ class ClubController extends AppController
     {
         $club = $this->findModel($id);
 
+        // 2 способ достать треки (не использую во view
         $tracks = Club::find()
             ->select('track.name')
             ->innerJoin(Playlist::tableName(), 'playlist.id = club.playlist_id')
@@ -90,7 +91,7 @@ class ClubController extends AppController
     {
         $club = $this->findModel($id);
 
-        // Найти жанр музыки в плейлисте данного клуба
+        // найти жанр музыки в плейлисте данного клуба
         $genres = Club::find()
             ->select(['genre.name', 'genre.id'])
             ->innerJoin(Playlist::tableName(), 'playlist.id = club.playlist_id')
@@ -100,26 +101,43 @@ class ClubController extends AppController
             ->where(['club.id' => $id])
             ->all();
 
+        //достать genre.id для поиска посетителя с таким жанром, genre.name для дальнейших условий, если жанр не 'romance', тогда танцуют соло
+        foreach ($genres as $genre) {
+            $genreId[] = $genre->id;
+            $genreNames[] = $genre->name;
+        }
+
         // найти всех посетителей, которые танцуют данный жанр
         $dancers = Club::find()
-            ->select(['visitor.name'])
+            ->select(['visitor.name', 'genre.id'])
             ->distinct(['visitor.id', 'visitor_genre.genre_id'])
             ->innerJoin(Playlist::tableName(), 'playlist.id = club.playlist_id')
             ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
             ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
+            ->innerJoin(Genre::tableName(), 'track.genre_id = genre.id')
             ->innerJoin(Visitor::tableName(), 'club.id = visitor.club_id')
             ->innerJoin(VisitorGenre::tableName(), 'visitor.id = visitor_genre.visitor_id')
-            ->innerJoin(Genre::tableName(), 'visitor_genre.genre_id = genre.id')
             ->where(['club.id' => $id])
+            // обязательно нужен WHERE visitor_genre.genre_id = genre.id || ПОХОЖЕ НЕ РАБОТАЕТ
+            ->andWhere(['=', 'visitor_genre.genre_id', $genreId])
             ->all();
 
-        //TODO добавить правило на genre.name = 'romance' не выводить.
-        // танцоры соло
+        //достать visitor.name для поиска посетителя, visitor_genre.genre_id для дальнейшего сравнения с genre.id
         foreach ($dancers as $dancer) {
-            $soloDance[] = $dancer->name;
+            $danceNames[] = $dancer->name;
+            $danceGenresId[] = $dancer->id;
         }
 
-        // echo '<pre>' . print_r($soloDance, true) . '</pre>';
+        //TODO добавить правило, если genre.name = 'romance' не выводить.
+        // танцоры соло
+        // ЕРУНДА
+        if (!in_array('romance', $genreNames)) {
+            foreach ($danceNames as $danceName) {
+                $result[] = $danceName;
+            }
+        }
+
+        // echo '<pre>' . print_r($genres, true) . '</pre>';
 
         // найти всех посетителей, которые танцуют данный жанр, если посетитель М
         $man = Club::find()
@@ -156,6 +174,8 @@ class ClubController extends AppController
         }
 
         // создать пары
+        //TODO если жанр музыки 'romance' до создаются пары
+
         for ($i = 0; $i <= min(count($manNames), count($womanNames)); $i++) {
             $couples[] = $manNames[$i] . ' + ' . $womanNames[$i];
         }

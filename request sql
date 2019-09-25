@@ -40,16 +40,17 @@ FROM club
   INNER JOIN track
     ON playlist_track.track_id = track.id
 
+// для поиска жанра музыки у посетителя
 SELECT
-  club.name,
-  playlist.name AS playlistName,
-  track.name    AS trackName,
-  genre.name AS genreName,
-  visitor.name AS visitorName,
-  visitor.gender AS visitorGender,
-  visitor_genre.visitor_id AS visitor_genreVisitorId,
-  visitor_genre.id AS visitor_genreId,
-  visitor.name AS Пара
+  club.name                AS clubName,
+  playlist.name            AS playlistName,
+  track.name               AS trackName,
+  genre.name               AS genreName,
+  visitor.name             AS visitorName,
+  visitor.gender           AS visitorGender,
+  visitor_genre.visitor_id AS visitor_genre_Visitor_Id,
+  visitor_genre.genre_id   AS visitor_genre_Genre_Id,
+  genre.id                 AS genre_Id
 FROM club
   INNER JOIN playlist
     ON club.playlist_id = playlist.id
@@ -63,7 +64,7 @@ FROM club
     ON club.id = visitor.club_id
   INNER JOIN visitor_genre
     ON visitor.id = visitor_genre.visitor_id
-WHERE club.id = 2 AND playlist.id = 1 AND visitor.gender = 'женский'
+WHERE club.id = 2 AND visitor_genre.genre_id = genre.id
 
 // Для клуба выход групп, посетителей
 UPDATE visitor
