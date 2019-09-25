@@ -20,7 +20,7 @@ $this->title = 'Группы';
         <thead class="thead-default">
         <tr>
             <th class="col-md-4">Название группы</th>
-            <th class="col-md-4">Участники группы</th>
+            <th class="col-md-4">Количество участников</th>
             <th class="col-md-4">Действия</th>
         </tr>
         </thead>
@@ -30,9 +30,11 @@ $this->title = 'Группы';
             <tr>
                 <td><?= $company->name; ?></td>
                 <td>
-                    <?php foreach ($company->visitor as $visitor): ?>
-                        <?= $visitor->name; ?> <br>
+                    <?php $count = 0;
+                    foreach ($company->visitor as $visitor): ?>
+                        <?php $count++; ?>
                     <?php endforeach; ?>
+                    <?= $count; ?>
                 </td>
                 <td>
                     <a href="<?= Url::to(['company/view', 'id' => $company->id]); ?>"><?= Html::submitButton('Посмотреть', ['class' => 'btn btn-info']); ?></a>

@@ -130,14 +130,11 @@ class ClubController extends AppController
 
         //TODO добавить правило, если genre.name = 'romance' не выводить.
         // танцоры соло
-        // ЕРУНДА
         if (!in_array('romance', $genreNames)) {
             foreach ($danceNames as $danceName) {
                 $result[] = $danceName;
             }
         }
-
-        // echo '<pre>' . print_r($genres, true) . '</pre>';
 
         // найти всех посетителей, которые танцуют данный жанр, если посетитель М
         $man = Club::find()
@@ -180,13 +177,14 @@ class ClubController extends AppController
             $couples[] = $manNames[$i] . ' + ' . $womanNames[$i];
         }
 
-        return $this->render('dance-floor', compact('club', 'genres', 'soloDance', 'couples'));
+        return $this->render('dance-floor', compact('club', 'genres', 'dancers', 'couples'));
     }
 
     public function actionExitVisitor($visitor_id, $club_id)
     {
         $this->findModel($club_id);
 
+        //TODO: переделать запросы, для защиты от SQL инъекций
         // Выходит Visitor
         Yii::$app->db->createCommand(
             "UPDATE visitor JOIN club ON club.id = visitor.club_id SET visitor.company_id = NULL, visitor.club_id = NULL WHERE visitor.id = $visitor_id;")
@@ -199,6 +197,7 @@ class ClubController extends AppController
     {
         $this->findModel($club_id);
 
+        //TODO: переделать запросы, для защиты от SQL инъекций
         // Выходит Company
         Yii::$app->db->createCommand(
             "UPDATE visitor JOIN club ON club.id = visitor.club_id INNER JOIN company ON visitor.company_id = company.id SET visitor.company_id = NULL, visitor.club_id = NULL WHERE company.id = $company_id;")

@@ -20,11 +20,8 @@ $this->title = 'Посетители';
         <thead class="thead-default">
         <tr>
             <th class="col-md-2">Имя</th>
-            <th class="col-md-2">Пол</th>
-            <th class="col-md-2">Танцует</th>
-            <th class="col-md-1">Группа</th>
-            <th class="col-md-1">Клуб</th>
-            <th class="col-md-4">Действия</th>
+            <th class="col-md-2">Группа</th>
+            <th class="col-md-2">Действия</th>
         </tr>
         </thead>
         <tbody>
@@ -32,14 +29,7 @@ $this->title = 'Посетители';
         <?php foreach ($visitors as $visitor): ?>
             <tr>
                 <td><?= $visitor->name; ?></td>
-                <td><?= $visitor->gender; ?></td>
-                <td>
-                    <?php foreach ($visitor->genre as $genre): ?>
-                        <?= $genre->name; ?> <br>
-                    <?php endforeach; ?>
-                </td>
                 <td><?= $visitor->company->name; ?></td>
-                <td><?= $visitor->club->name; ?></td>
                 <td>
                     <a href="<?= Url::to(['visitor/view', 'id' => $visitor->id]); ?>"><?= Html::submitButton('Посмотреть', ['class' => 'btn btn-info']); ?></a>
                     <a href="<?= Url::to(['visitor/update', 'id' => $visitor->id]); ?>"><?= Html::submitButton('Изменить', ['class' => 'btn btn-warning']); ?></a>

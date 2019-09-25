@@ -19,8 +19,6 @@ $this->title = 'Танцпол';
     <table class="table">
         <thead class="thead-default">
         <tr>
-            <th class="col-md-1">Клуб</th>
-            <th class="col-md-2">Плейлист</th>
             <th class="col-md-2">Трек</th>
             <th class="col-md-1">Жанр</th>
             <th class="col-md-2">Танцует</th>
@@ -30,8 +28,6 @@ $this->title = 'Танцпол';
 
         <tbody>
         <tr>
-            <td><?= $club->name; ?></td>
-            <td><?= $club->playlist->name; ?></td>
             <td>
                 <?php foreach ($club->playlist->track as $track): ?>
                     <?= $track->name; ?><br>
@@ -42,7 +38,9 @@ $this->title = 'Танцпол';
                 <?= $genre->name; ?><br>
                 <?php endforeach; ?>
             <td>
-                    Заглушка
+                <?php foreach ($dancers as $dance): ?>
+                    <?= $dance->name; ?><br>
+                <?php endforeach; ?>
             </td>
             <td>
                 <?php foreach ($couples as $couple): ?>
