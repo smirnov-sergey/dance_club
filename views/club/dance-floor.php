@@ -5,7 +5,7 @@ use app\models\VisitorGenre;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = 'Танцпол';
+$this->title = 'Танцпол в клубе ' . $club->name;
 ?>
 
 <title><?= Html::encode($this->title) ?></title>
@@ -15,41 +15,46 @@ $this->title = 'Танцпол';
 </div>
 
 <div class="table-responsive">
-    <h3 class="text-center">Танцпол</h3>
+    <h3 class="text-center">
+        клуб: <?= $club->name; ?><br>
+        плейлист: <?= $club->playlist->name; ?><br><br>
+        Танцпол<br>
+    </h3>
     <table class="table">
         <thead class="thead-default">
         <tr>
-            <th class="col-md-2">Трек</th>
+            <th class="col-md-2">Треки</th>
             <th class="col-md-1">Жанр</th>
             <th class="col-md-2">Танцует</th>
-            <th class="col-md-2">Пары</th>
         </tr>
         </thead>
 
         <tbody>
-        <tr>
-            <td>
-                <?php foreach ($club->playlist->track as $track): ?>
-                    <?= $track->name; ?><br>
-                <?php endforeach; ?>
-            </td>
-            <td>
-                <?php foreach ($genres as $genre): ?>
-                <?= $genre->name; ?><br>
-                <?php endforeach; ?>
-            <td>
-                <?php foreach ($dancers as $dance): ?>
-                    <?= $dance->name; ?><br>
-                <?php endforeach; ?>
-            </td>
-            <td>
-                <?php foreach ($couples as $couple): ?>
-                    <?= $couple; ?><br>
-                <?php endforeach; ?>
+        <?php foreach ($dancers as $dance): ?>
+            <tr>
+                <td>
+                    <?= $dance[trackName]; ?><br>
+                </td>
+                <td>
+                    <?= $dance[genreName]; ?><br>
+                </td>
+                <td>
+                    <?php if ($dance[genreName] == 'romance') : ?>
 
-            </td>
-            </td>
-        </tr>
+                        <?php foreach ($couples as $couple) : ?>
+                            <?= $couple; ?><br>
+                        <?php endforeach; ?>
+
+                    <?php else: ?>
+
+                        <?php foreach ($soloDance as $solo) : ?>
+                            <?= $solo; ?><br>
+                        <?php endforeach; ?>
+
+                    <?php endif; ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
         </tbody>
     </table>
 </div><!--table-responsive-->

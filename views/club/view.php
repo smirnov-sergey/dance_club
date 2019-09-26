@@ -12,17 +12,17 @@ $this->title = 'Клуб';
     <a href="<?= Url::to(['club/index']); ?>"> <?= Html::submitButton('Все клубы', ['class' => 'btn btn-primary']); ?></a>
 </div>
 
-<h3 class="text-center">Клуб</h3>
+<h3 class="text-center">Клуб <?= $club->name; ?></h3>
 <br>
 
 <div class="container text-center">
     <a href="<?= Url::to(['club/dance-floor', 'id' => $club->id]); ?>"><?= Html::submitButton('Танцпол', ['class' => 'btn btn-warning']); ?></a>
 </div>
 
+
 <table class="table">
     <thead class="thead-default">
     <tr>
-        <th class="col-md-2"><h5>Название клуба</h5></th>
         <th class="col-md-2"><h5>Плейлист</h5></th>
         <th class="col-md-2"><h5>Треки</h5></th>
         <th class="col-md-2"><h5>Жанр</h5></th>
@@ -32,47 +32,52 @@ $this->title = 'Клуб';
     </thead>
     <tbody>
     <tr>
-        <td><h3><?= $club->name; ?></h3></td>
         <td><h3><?= $club->playlist->name; ?></h3></td>
         <td>
             <h3>
-                <?php foreach ($club->playlist->track as $track): ?>
-                    <?= $track->name; ?><br>
-                <?php endforeach; ?>
-
-                <?php /*foreach ($tracks as $track): */?><!--
-                    <?/*= $track->name; */?><br>
-                --><?php /*endforeach; */?>
-            </h3>
-        </td>
-        <td>
-            <h3>
-            <?php foreach ($genres as $genre): ?>
-                <?= $genre->name; ?><br>
-            <?php endforeach; ?>
-            </h3>
-        </td>
-        <td>
-            <h3>
-                <?php foreach ($club->visitor as $visitor): ?>
-                    <?= $visitor->name; ?>
-                    <a href="<?= Url::to(['club/exit-visitor', 'visitor_id' => $visitor->id, 'club_id' => $club->id]); ?>">
-                        <span class="glyphicon glyphicon-log-out"></span>
-                    </a>
-                    <br>
+                <?php foreach ($tracks as $track): ?>
+                    <?= $track[trackName]; ?><br>
                 <?php endforeach; ?>
             </h3>
         </td>
         <td>
             <h3>
+                <?php foreach ($tracks as $track): ?>
+                    <?= $track[genreName]; ?><br>
+                <?php endforeach; ?>
+            </h3>
+        </td>
+        <td colspan="2">
+            <table class="table">
+                <tbody>
                 <?php foreach ($club->company as $company): ?>
-                    <?= $company->name; ?>
-                    <a href="<?= Url::to(['club/exit-company', 'company_id' => $company->id, 'club_id' => $club->id]); ?>">
-                        <span class="glyphicon glyphicon-log-out"></span>
-                    </a>
-                    <br>
+                    <tr>
+                        <td>
+                            <h3>
+                                <?php foreach ($club->visitor as $visitor): ?>
+                                    <?php if ($visitor->company_id == $company->id) : ?>
+                                        <?= $visitor->name; ?>
+                                        <a href="<?= Url::to(['club/exit-visitor', 'visitor_id' => $visitor->id, 'club_id' => $club->id]); ?>">
+                                            <span class="glyphicon glyphicon-log-out"></span>
+                                        </a>
+                                        <br>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </h3>
+                        </td>
+                        <td>
+                            <h3>
+                                <?= $company->name; ?>
+                                <a href="<?= Url::to(['club/exit-company', 'company_id' => $company->id, 'club_id' => $club->id]); ?>">
+                                    <span class="glyphicon glyphicon-log-out"></span>
+                                </a>
+                                <br>
+                            </h3>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
-            </h3>
+                </tbody>
+            </table>
         </td>
     </tr>
     </tbody>

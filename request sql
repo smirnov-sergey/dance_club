@@ -16,7 +16,7 @@ $tracks = Playlist::find()
     ->where(['playlist.id' => $id])
     ->all();
 
-// Для клуба
+// Для клуба, посетители и группы
 SELECT
   club.name    AS club,
   visitor.name AS visitors,
@@ -39,6 +39,7 @@ FROM club
     ON playlist.id = playlist_track.playlist_id
   INNER JOIN track
     ON playlist_track.track_id = track.id
+
 
 // для поиска жанра музыки у посетителя
 SELECT
@@ -66,6 +67,17 @@ FROM club
     ON visitor.id = visitor_genre.visitor_id
 WHERE club.id = 2 AND visitor_genre.genre_id = genre.id
 
+SELECT c.id, t.name, g.name, v.name, vg.genre_id
+FROM Track AS t
+  INNER JOIN playlist_track AS pt ON pt.track_id = t.id
+  INNER JOIN playlist AS p ON p.id = pt.playlist_id
+  INNER JOIN club AS c ON c.playlist_id = p.id
+  INNER JOIN visitor_genre AS vg ON vg.genre_id = t.genre_id
+  INNER JOIN genre AS g ON g.id = t.genre_id
+  RIGHT JOIN visitor AS v ON v.id = vg.visitor_id AND v.club_id = c.id
+WHERE c.id = 2
+
+
 // Для клуба выход групп, посетителей
 UPDATE visitor
   JOIN club
@@ -76,7 +88,7 @@ SET visitor.company_id = NULL,
   visitor.club_id      = NULL
 WHERE company.id = 2;
 
-// Для посетителей
+// Для посетителей и жанра танца
 SELECT
   visitor.name AS visitors,
   genre.name   AS genres
