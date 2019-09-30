@@ -79,6 +79,8 @@ class ClubController extends AppController
         return $this->redirect(['club/index']);
     }
 
+    // TODO не реализован функционал танцоров по условию
+    // танцпол
     public function actionDanceFloor($id)
     {
         $club = $this->findModel($id);
@@ -87,8 +89,7 @@ class ClubController extends AppController
         $dancers = Track::find()
             ->select(['trackName' => 'track.name', 'genreName' => 'genre.name', 'visitorName' => 'visitor.name',
                 'visitorId' => 'visitor.id', 'genreId' => 'genre.id', 'visitorGenreId' => 'visitor_genre.genre_id',
-                'visitorClub' => 'visitor.club_id', 'visitorGender' => 'visitor.gender'])
-            ->distinct(['visitor.id'])
+                'visitorClub' => 'visitor.club_id', 'visitorGender' => 'visitor.gender', 'trackId' => 'track.id'])
             ->innerJoin(PlaylistTrack::tableName(), 'playlist_track.track_id = track.id')
             ->innerJoin(Playlist::tableName(), 'playlist.id = playlist_track.playlist_id')
             ->innerJoin(Club::tableName(), 'club.playlist_id = playlist.id')
@@ -103,32 +104,43 @@ class ClubController extends AppController
             ->asArray()
             ->all();
 
+        // TODO сделать группировку посетителям по треку, сейчас все посетитетели по одиночке
+        // группировка по трекам
+        foreach ($dancers as $track) {
+            $tracks[] = [
+                $track['trackId'] =>
+                    $track['visitorName']
+            ];
+        }
+
+        // 2 вариант
         foreach ($dancers as $dance) {
             // танцуют те, кто знает жанр музыки
-            if ($dance[genreId] == $dance[visitorGenreId]) {
-                $soloDance[] = $dance[visitorName];
+            if ($dance['genreId'] == $dance['visitorGenreId']) {
+                $soloDance[] = $dance['visitorName'];
             }
 
             // разделить посетителей по полу
-            if ($dance[visitorGender] == 'мужской') {
-                $manNames[] = $dance[visitorName];
-            } elseif ($dance[visitorGender] == 'женский') {
-                $womanNames[] = $dance[visitorName];
+            if ($dance['visitorGender'] == 'мужской') {
+                $manNames[] = $dance['visitorName'];
+            } elseif ($dance['visitorGender'] == 'женский') {
+                $womanNames[] = $dance['visitorName'];
             };
 
             // если жанр музыки 'romance' - создаются пары
-            if ($dance[genreName] == 'romance') {
+            if ($dance['genreName'] == 'romance') {
                 for ($i = 0; $i <= min(count($manNames), count($womanNames)); $i++) {
                     $couples[] = $manNames[$i] . ' + ' . $womanNames[$i];
                 }
             }
         }
 
-        // echo '<pre>' . print_r($couples, true) . '</pre>';
+        // echo '<pre>' . print_r($tracks, true) . '</pre>';
 
         return $this->render('dance-floor', compact('club', 'dancers', 'couples', 'soloDance'));
     }
 
+    // убрать посетителя из клуба
     public function actionExitVisitor($visitor_id, $club_id)
     {
         $this->findModel($club_id);
@@ -142,6 +154,7 @@ class ClubController extends AppController
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    // убрать группу из клуба
     public function actionExitCompany($company_id, $club_id)
     {
         $this->findModel($club_id);
