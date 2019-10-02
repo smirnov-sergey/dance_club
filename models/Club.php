@@ -45,8 +45,8 @@ class Club extends ActiveRecord
             [['name'], 'required'],
             [['playlist_id'], 'safe'],
             [['name'], 'string', 'min' => 3, 'max' => 255],
-//            ['status', 'default', 'value' => self::STATUS_INACTIVE],
-//            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
+            // ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            // ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
         ];
     }
 

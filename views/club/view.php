@@ -36,48 +36,38 @@ $this->title = 'Клуб';
         <td>
             <h3>
                 <?php foreach ($tracks as $track): ?>
-                    <?= $track[trackName]; ?><br>
+                    <?= $track['trackName']; ?><br>
                 <?php endforeach; ?>
             </h3>
         </td>
         <td>
             <h3>
                 <?php foreach ($tracks as $track): ?>
-                    <?= $track[genreName]; ?><br>
+                    <?= $track['genreName']; ?><br>
                 <?php endforeach; ?>
             </h3>
         </td>
-        <td colspan="2">
-            <table class="table">
-                <tbody>
-                <?php foreach ($club->company as $company): ?>
-                    <tr>
-                        <td>
-                            <h3>
-                                <?php foreach ($club->visitor as $visitor): ?>
-                                    <?php if ($visitor->company_id == $company->id) : ?>
-                                        <?= $visitor->name; ?>
-                                        <a href="<?= Url::to(['club/exit-visitor', 'visitor_id' => $visitor->id, 'club_id' => $club->id]); ?>">
-                                            <span class="glyphicon glyphicon-log-out"></span>
-                                        </a>
-                                        <br>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </h3>
-                        </td>
-                        <td>
-                            <h3>
-                                <?= $company->name; ?>
-                                <a href="<?= Url::to(['club/exit-company', 'company_id' => $company->id, 'club_id' => $club->id]); ?>">
-                                    <span class="glyphicon glyphicon-log-out"></span>
-                                </a>
-                                <br>
-                            </h3>
-                        </td>
-                    </tr>
+        <td>
+            <h3>
+                <?php foreach ($club->visitor as $visitor): ?>
+                    <?= $visitor->name; ?>
+                    <a href="<?= Url::to(['club/exit-visitor', 'visitor_id' => $visitor->id, 'club_id' => $club->id]); ?>">
+                        <span class="glyphicon glyphicon-log-out"></span>
+                    </a>
+                    <br>
                 <?php endforeach; ?>
-                </tbody>
-            </table>
+            </h3>
+        </td>
+        <td>
+            <h3>
+                <?php foreach ($club->company as $company): ?>
+                    <?= $company->name; ?>
+                    <a href="<?= Url::to(['club/exit-company', 'company_id' => $company->id, 'club_id' => $club->id]); ?>">
+                        <span class="glyphicon glyphicon-log-out"></span>
+                    </a>
+                    <br>
+                <?php endforeach; ?>
+            </h3>
         </td>
     </tr>
     </tbody>

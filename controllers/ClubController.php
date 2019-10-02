@@ -85,7 +85,6 @@ class ClubController extends AppController
     {
         $club = $this->findModel($id);
 
-        // найти в клубе: плейлист, жанр музыки, посетителя, который знает данный жанр
         $dancers = Track::find()
             ->select(['trackName' => 'track.name', 'genreName' => 'genre.name', 'visitorName' => 'visitor.name',
                 'visitorId' => 'visitor.id', 'genreId' => 'genre.id', 'visitorGenreId' => 'visitor_genre.genre_id',
@@ -93,9 +92,9 @@ class ClubController extends AppController
             ->innerJoin(PlaylistTrack::tableName(), 'playlist_track.track_id = track.id')
             ->innerJoin(Playlist::tableName(), 'playlist.id = playlist_track.playlist_id')
             ->innerJoin(Club::tableName(), 'club.playlist_id = playlist.id')
-            ->innerJoin(VisitorGenre::tableName(), 'visitor_genre.genre_id = track.genre_id')
+            ->leftJoin(VisitorGenre::tableName(), 'visitor_genre.genre_id = track.genre_id')
             ->innerJoin(Genre::tableName(), 'genre.id = track.genre_id')
-            ->rightJoin(Visitor::tableName(), [
+            ->leftJoin(Visitor::tableName(), [
                 'and',
                 'visitor.id = visitor_genre.visitor_id',
                 'visitor.club_id = club.id'
@@ -104,40 +103,26 @@ class ClubController extends AppController
             ->asArray()
             ->all();
 
-        // TODO сделать группировку посетителям по треку, сейчас все посетитетели по одиночке
-        // группировка по трекам
+        // группировка посетитетелей по трекам
         foreach ($dancers as $track) {
-            $tracks[] = [
-                $track['trackId'] =>
-                    $track['visitorName']
-            ];
-        }
+            $tracks[$track['trackName']][] = $track['visitorName'];
 
-        // 2 вариант
-        foreach ($dancers as $dance) {
-            // танцуют те, кто знает жанр музыки
-            if ($dance['genreId'] == $dance['visitorGenreId']) {
-                $soloDance[] = $dance['visitorName'];
-            }
-
+            // TODO создать пары, если жанр музыки romance
             // разделить посетителей по полу
-            if ($dance['visitorGender'] == 'мужской') {
-                $manNames[] = $dance['visitorName'];
-            } elseif ($dance['visitorGender'] == 'женский') {
-                $womanNames[] = $dance['visitorName'];
+            /*if ($track['visitorGender'] == 'мужской') {
+                $manNames[$track['trackId']][] = $track['visitorName'];
+            } elseif ($track['visitorGender'] == 'женский') {
+                $womanNames[$track['trackId']][] = $track['visitorName'];
             };
 
-            // если жанр музыки 'romance' - создаются пары
-            if ($dance['genreName'] == 'romance') {
+            if ($track['genreName'] == 'romance') {
                 for ($i = 0; $i <= min(count($manNames), count($womanNames)); $i++) {
                     $couples[] = $manNames[$i] . ' + ' . $womanNames[$i];
                 }
-            }
+            };*/
         }
 
-        // echo '<pre>' . print_r($tracks, true) . '</pre>';
-
-        return $this->render('dance-floor', compact('club', 'dancers', 'couples', 'soloDance'));
+        return $this->render('dance-floor', compact('club', 'dancers', 'tracks'));
     }
 
     // убрать посетителя из клуба
