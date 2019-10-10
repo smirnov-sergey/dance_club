@@ -130,11 +130,18 @@ class ClubController extends AppController
     {
         $this->findModel($club_id);
 
-        // TODO: переделать запросы, для защиты от SQL инъекций
+        // TODO: доделать запрос, для защиты от SQL инъекций, проверка что id существует
         // Выходит Visitor
         Yii::$app->db->createCommand(
-            "UPDATE visitor JOIN club ON club.id = visitor.club_id SET visitor.company_id = NULL, visitor.club_id = NULL WHERE visitor.id = $visitor_id;")
+            "UPDATE visitor JOIN club ON club.id = visitor.club_id SET visitor.company_id =:companyNull, visitor.club_id =:clubNull WHERE visitor.id =:id;")
+            ->bindValue(':id', $visitor_id)
+            ->bindValue(':companyNull', NULL)
+            ->bindValue(':clubNull', NULL)
             ->execute();
+
+        /* Yii::$app->db->createCommand()
+             ->update('visitor', ['club_id' => null, 'company_id' => null], ['company.id' => $visitor_id])
+             ->execute();*/
 
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -144,10 +151,13 @@ class ClubController extends AppController
     {
         $this->findModel($club_id);
 
-        // TODO: переделать запросы, для защиты от SQL инъекций
+        // TODO: доделать запрос, для защиты от SQL инъекций, проверка что id существует
         // Выходит Company
         Yii::$app->db->createCommand(
-            "UPDATE visitor JOIN club ON club.id = visitor.club_id INNER JOIN company ON visitor.company_id = company.id SET visitor.company_id = NULL, visitor.club_id = NULL WHERE company.id = $company_id;")
+            "UPDATE visitor JOIN club ON club.id = visitor.club_id INNER JOIN company ON visitor.company_id = company.id SET visitor.company_id =:companyNull, visitor.club_id =:clubNull WHERE company.id =:id;")
+            ->bindValue(':id', $company_id)
+            ->bindValue(':companyNull', NULL)
+            ->bindValue(':clubNull', NULL)
             ->execute();
 
         return $this->redirect(Yii::$app->request->referrer);
