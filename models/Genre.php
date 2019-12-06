@@ -56,4 +56,10 @@ class Genre extends ActiveRecord
     {
         return ArrayHelper::map(self::find()->all(), 'id', 'name');
     }
+
+    // поиск всех жанров
+    public function findGenres()
+    {
+        return Genre::find()->all();
+    }
 }

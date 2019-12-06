@@ -9,7 +9,8 @@ class TrackController extends AppController
 {
     public function actionIndex()
     {
-        $tracks = Track::find()->with(['genre'])->all();
+        $track = new Track();
+        $tracks = $track->findTracks();
 
         return $this->render('index', compact('tracks'));
     }

@@ -51,4 +51,10 @@ class Company extends ActiveRecord
     {
         return ArrayHelper::map(self::find()->all(), 'id', 'name');
     }
+
+    // поиск всех групп
+    public function findCompanies()
+    {
+        return Company::find()->all();
+    }
 }

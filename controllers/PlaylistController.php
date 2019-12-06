@@ -19,7 +19,8 @@ class PlaylistController extends AppController
 {
     public function actionIndex()
     {
-        $playlists = Playlist::find()->with(['track'])->all();
+        $playlist = new Playlist();
+        $playlists = $playlist->findPlaylists();
 
         return $this->render('index', compact('playlists'));
     }
@@ -28,13 +29,7 @@ class PlaylistController extends AppController
     {
         $playlist = $this->findModel($id);
 
-        $genres = Playlist::find()
-            ->select('genre.name')
-            ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
-            ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
-            ->innerJoin(Genre::tableName(), 'track.genre_id = genre.id')
-            ->where(['playlist.id' => $id])
-            ->all();
+        $genres = $playlist->findGenres($id);
 
         return $this->render('view', compact('playlist', 'genres'));
     }

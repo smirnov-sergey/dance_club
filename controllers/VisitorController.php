@@ -18,7 +18,8 @@ class VisitorController extends AppController
 {
     public function actionIndex()
     {
-        $visitors = Visitor::find()->with(['company', 'club', 'genre'])->all();
+        $visitor = new Visitor();
+        $visitors = $visitor->findVisitors();
 
         return $this->render('index', compact('visitors'));
     }

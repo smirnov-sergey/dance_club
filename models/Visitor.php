@@ -59,4 +59,10 @@ class Visitor extends ActiveRecord
             'genre' => 'Жанр музыки',
         ];
     }
+
+    // поиск всех посетителей
+    public function findVisitors()
+    {
+        return Visitor::find()->with(['company', 'club', 'genre'])->all();
+    }
 }

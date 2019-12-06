@@ -11,7 +11,8 @@ class CompanyController extends AppController
 {
     public function actionIndex()
     {
-        $companies = Company::find()->all();
+        $company = new Company();
+        $companies = $company->findCompanies();
 
         return $this->render('index', compact('companies'));
     }

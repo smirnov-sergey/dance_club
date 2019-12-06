@@ -57,4 +57,22 @@ class Playlist extends ActiveRecord
     {
         return ArrayHelper::map(self::find()->all(), 'id', 'name');
     }
+
+    // поиск всех плейлистов
+    public function findPlaylists()
+    {
+        return Playlist::find()->with(['track'])->all();
+    }
+
+    // поиск всех жанров музыки у плейлиста
+    public function findGenres($id)
+    {
+        return Playlist::find()
+            ->select('genre.name')
+            ->innerJoin(PlaylistTrack::tableName(), 'playlist.id = playlist_track.playlist_id')
+            ->innerJoin(Track::tableName(), 'playlist_track.track_id = track.id')
+            ->innerJoin(Genre::tableName(), 'track.genre_id = genre.id')
+            ->where(['playlist.id' => $id])
+            ->all();
+    }
 }

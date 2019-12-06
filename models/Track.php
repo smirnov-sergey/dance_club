@@ -57,4 +57,9 @@ class Track extends ActiveRecord
         return ArrayHelper::map(self::find()->all(), 'id', 'name');
     }
 
+    // поиск всех треков
+    public function findTracks()
+    {
+        return Track::find()->with(['genre'])->all();
+    }
 }

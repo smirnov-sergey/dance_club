@@ -9,7 +9,8 @@ class GenreController extends AppController
 {
     public function actionIndex()
     {
-        $genres = Genre::find()->all();
+        $genre = new Genre();
+        $genres = $genre->findGenres();
 
         return $this->render('index', compact('genres'));
     }
