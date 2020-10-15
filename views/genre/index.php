@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\models\Genre;
+
+/** @var $genres Genre */
 
 $this->title = 'Жанры';
 ?>
@@ -9,7 +12,9 @@ $this->title = 'Жанры';
 <title><?= Html::encode($this->title) ?></title>
 
 <form method="get" action="<?= Url::to(['genre/search']) ?>" class="navbar-form">
-    <input type="text" placeholder="Поиск..." name="search" class="form-control">
+    <label>
+        <input type="text" placeholder="Поиск..." name="search" class="form-control">
+    </label>
     <button type="submit" class="btn btn-default">Найти</button>
 </form>
 
@@ -27,12 +32,17 @@ $this->title = 'Жанры';
 
         <?php foreach ($genres as $genre): ?>
             <tr>
-                <td><?= $genre->name; ?></td>
+                <td><?= $genre->name ?></td>
                 <td>
-                    <a href="<?= Url::to(['genre/view', 'id' => $genre->id]); ?>"><?= Html::submitButton('Посмотреть', ['class' => 'btn btn-info']); ?></a>
-                    <a href="<?= Url::to(['genre/update', 'id' => $genre->id]); ?>"><?= Html::submitButton('Изменить', ['class' => 'btn btn-warning']); ?></a>
-                    <a href="<?= Url::to(['genre/delete', 'id' => $genre->id]); ?>"
-                       onclick="return confirm('Вы действительно хотите удалить этот жанр?')"><?= Html::submitButton('Удалить', ['class' => 'btn btn-danger']); ?>
+                    <a href="<?= Url::to(['genre/view', 'id' => $genre->id]) ?>">
+                        <?= Html::submitButton('Посмотреть', ['class' => 'btn btn-info']) ?>
+                    </a>
+                    <a href="<?= Url::to(['genre/update', 'id' => $genre->id]) ?>">
+                        <?= Html::submitButton('Изменить', ['class' => 'btn btn-warning']) ?>
+                    </a>
+                    <a href="<?= Url::to(['genre/delete', 'id' => $genre->id]) ?>"
+                       onclick="return confirm('Вы действительно хотите удалить этот жанр?')">
+                        <?= Html::submitButton('Удалить', ['class' => 'btn btn-danger']) ?>
                     </a>
                 </td>
             </tr>
@@ -40,5 +50,7 @@ $this->title = 'Жанры';
 
         </tbody>
     </table>
-    <a href="<?= Url::to(['genre/add']); ?>"> <?= Html::submitButton('Добавить', ['class' => 'btn btn-primary']); ?></a>
+    <a href="<?= Url::to(['genre/add']) ?>">
+        <?= Html::submitButton('Добавить', ['class' => 'btn btn-primary']) ?>
+    </a>
 </div>

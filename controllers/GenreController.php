@@ -1,9 +1,10 @@
 <?php
+
 namespace app\controllers;
 
-use app\models\Genre;
 use Yii;
 use yii\web\NotFoundHttpException;
+use app\models\Genre;
 
 class GenreController extends AppController
 {
@@ -12,14 +13,18 @@ class GenreController extends AppController
         $genre = new Genre();
         $genres = $genre->findGenres();
 
-        return $this->render('index', compact('genres'));
+        return $this->render('index', [
+            'genres' => $genres
+        ]);
     }
 
     public function actionView($id)
     {
         $genre = $this->findModel($id);
 
-        return $this->render('view', compact('genre'));
+        return $this->render('view', [
+            'genre' => $genre
+        ]);
     }
 
     public function actionAdd()
@@ -32,7 +37,9 @@ class GenreController extends AppController
             }
         }
 
-        return $this->render('add', compact('genre'));
+        return $this->render('add', [
+            'genre' => $genre
+        ]);
     }
 
     public function actionUpdate($id)
@@ -45,34 +52,43 @@ class GenreController extends AppController
             }
         }
 
-        return $this->render('update', compact('genre'));
+        return $this->render('update', [
+            'genre' => $genre
+        ]);
     }
 
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $genre = $this->findModel($id);
+        $genre->delete();
 
         return $this->redirect(['genre/index']);
     }
 
-    //поиск записи в таблице
     protected function findModel($id)
     {
-        if (($genre = Genre::findOne($id)) !== null) {
+        $genre = Genre::findOne($id);
+
+        if ($genre !== null) {
             return $genre;
-        } else {
-            throw new NotFoundHttpException('Данного жанра не существует');
         }
+
+        throw new NotFoundHttpException('Данного жанра не существует');
     }
 
-    // поиск по имени трека
+    /**
+     * @param $search
+     * @return string
+     */
     public function actionSearch($search)
     {
-        if (!$search)
-            return $this->render('search');
+        $genres = Genre::find()
+            ->where(['like', 'name', $search])
+            ->all();
 
-        $genres = Genre::find()->where(['like', 'name', $search])->all();
-
-        return $this->render('search', compact('genres', 'search'));
+        return $this->render('search', [
+            'search' => $search,
+            'genres' => $genres
+        ]);
     }
 }
