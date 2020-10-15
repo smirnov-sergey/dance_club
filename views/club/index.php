@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\models\Club;
+
+/** @var $clubs Club */
 
 $this->title = 'Клуб';
 ?>
@@ -9,7 +12,9 @@ $this->title = 'Клуб';
 <title><?= Html::encode($this->title) ?></title>
 
 <form method="get" action="<?= Url::to(['club/search']) ?>" class="navbar-form">
-    <input type="text" placeholder="Поиск..." name="search" class="form-control">
+    <label>
+        <input type="text" placeholder="Поиск..." name="search" class="form-control">
+    </label>
     <button type="submit" class="btn btn-default">Найти</button>
 </form>
 
@@ -30,27 +35,32 @@ $this->title = 'Клуб';
 
         <?php foreach ($clubs as $club): ?>
             <tr>
-                <td><?= $club->name; ?></td>
-                <td><?= $club->playlist->name; ?></td>
+                <td><?= $club->name ?></td>
+                <td><?= $club->playlist->name ?></td>
                 <td>
                     <?php $count = 0;
                     foreach ($club->company as $company): ?>
                         <?php $count++; ?>
                     <?php endforeach; ?>
-                    <?= $count; ?>
+                    <?= $count ?>
                 </td>
                 <td>
                     <?php $count = 0;
                     foreach ($club->visitor as $visitor): ?>
                         <?php $count++; ?>
                     <?php endforeach; ?>
-                    <?= $count; ?>
+                    <?= $count ?>
                 </td>
                 <td>
-                    <a href="<?= Url::to(['club/view', 'id' => $club->id]); ?>"><?= Html::submitButton('Посмотреть', ['class' => 'btn btn-info']); ?></a>
-                    <a href="<?= Url::to(['club/update', 'id' => $club->id]); ?>"><?= Html::submitButton('Изменить', ['class' => 'btn btn-warning']); ?></a>
-                    <a href="<?= Url::to(['club/delete', 'id' => $club->id]); ?>"
-                       onclick="return confirm('Вы действительно хотите удалить этот клуб?')"><?= Html::submitButton('Удалить', ['class' => 'btn btn-danger']); ?>
+                    <a href="<?= Url::to(['club/view', 'id' => $club->id]) ?>">
+                        <?= Html::submitButton('Посмотреть', ['class' => 'btn btn-info']) ?>
+                    </a>
+                    <a href="<?= Url::to(['club/update', 'id' => $club->id]) ?>">
+                        <?= Html::submitButton('Изменить', ['class' => 'btn btn-warning']) ?>
+                    </a>
+                    <a href="<?= Url::to(['club/delete', 'id' => $club->id]) ?>"
+                       onclick="return confirm('Вы действительно хотите удалить этот клуб?')">
+                        <?= Html::submitButton('Удалить', ['class' => 'btn btn-danger']) ?>
                     </a>
                 </td>
             </tr>
@@ -58,5 +68,7 @@ $this->title = 'Клуб';
 
         </tbody>
     </table>
-    <a href="<?= Url::to(['club/add' /*, 'id' => $club->id + 1 */]); ?>"> <?= Html::submitButton('Добавить', ['class' => 'btn btn-primary']); ?></a>
+    <a href="<?= Url::to(['club/add']) ?>">
+        <?= Html::submitButton('Добавить', ['class' => 'btn btn-primary']) ?>
+    </a>
 </div>

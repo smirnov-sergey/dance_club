@@ -2,6 +2,11 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\models\Club;
+use app\models\Track;
+
+/** @var $club Club */
+/** @var $tracks Track */
 
 $this->title = 'Клуб';
 ?>
@@ -9,16 +14,19 @@ $this->title = 'Клуб';
 <title><?= Html::encode($this->title) ?></title>
 
 <div class="nav nav-pills">
-    <a href="<?= Url::to(['club/index']); ?>"> <?= Html::submitButton('Все клубы', ['class' => 'btn btn-primary']); ?></a>
+    <a href="<?= Url::to(['club/index']) ?>">
+        <?= Html::submitButton('Все клубы', ['class' => 'btn btn-primary']) ?>
+    </a>
 </div>
 
-<h3 class="text-center">Клуб <?= $club->name; ?></h3>
+<h3 class="text-center">Клуб <?= $club->name ?></h3>
 <br>
 
 <div class="container text-center">
-    <a href="<?= Url::to(['club/dance-floor', 'id' => $club->id]); ?>"><?= Html::submitButton('Танцпол', ['class' => 'btn btn-warning']); ?></a>
+    <a href="<?= Url::to(['club/dance-floor', 'id' => $club->id]) ?>">
+        <?= Html::submitButton('Танцпол', ['class' => 'btn btn-warning']) ?>
+    </a>
 </div>
-
 
 <table class="table">
     <thead class="thead-default">
@@ -32,26 +40,26 @@ $this->title = 'Клуб';
     </thead>
     <tbody>
     <tr>
-        <td><h3><?= $club->playlist->name; ?></h3></td>
+        <td><h3><?= $club->playlist->name ?></h3></td>
         <td>
             <h3>
                 <?php foreach ($tracks as $track): ?>
-                    <?= $track['trackName']; ?><br>
+                    <?= $track['trackName'] ?><br>
                 <?php endforeach; ?>
             </h3>
         </td>
         <td>
             <h3>
                 <?php foreach ($tracks as $track): ?>
-                    <?= $track['genreName']; ?><br>
+                    <?= $track['genreName'] ?><br>
                 <?php endforeach; ?>
             </h3>
         </td>
         <td>
             <h3>
                 <?php foreach ($club->visitor as $visitor): ?>
-                    <?= $visitor->name; ?>
-                    <a href="<?= Url::to(['club/exit-visitor', 'visitor_id' => $visitor->id, 'club_id' => $club->id]); ?>">
+                    <?= $visitor->name ?>
+                    <a href="<?= Url::to(['club/exit-visitor', 'visitor_id' => $visitor->id, 'club_id' => $club->id]) ?>">
                         <span class="glyphicon glyphicon-log-out"></span>
                     </a>
                     <br>
@@ -61,8 +69,8 @@ $this->title = 'Клуб';
         <td>
             <h3>
                 <?php foreach ($club->company as $company): ?>
-                    <?= $company->name; ?>
-                    <a href="<?= Url::to(['club/exit-company', 'company_id' => $company->id, 'club_id' => $club->id]); ?>">
+                    <?= $company->name ?>
+                    <a href="<?= Url::to(['club/exit-company', 'company_id' => $company->id, 'club_id' => $club->id]) ?>">
                         <span class="glyphicon glyphicon-log-out"></span>
                     </a>
                     <br>
