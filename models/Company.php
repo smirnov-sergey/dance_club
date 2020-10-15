@@ -1,33 +1,19 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: admin
- * Date: 16.09.2019
- * Time: 22:39
- */
-
 namespace app\models;
 
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
+/**
+ *
+ * @property-read mixed $club
+ * @property-read mixed $visitor
+ */
 class Company extends ActiveRecord
 {
     public static function tableName()
     {
         return 'company';
-    }
-
-    public function getVisitor()
-    {
-        return $this->hasMany(Visitor::class, ['company_id' => 'id']);
-    }
-
-    //Для связи c Club, через таблицу Visitor
-    public function getClub()
-    {
-        return $this->hasOne(Club::class, ['id' => 'club_id'])
-            ->viaTable(Visitor::tableName(), ['company_id' => 'id']);
     }
 
     public function rules()
@@ -46,15 +32,28 @@ class Company extends ActiveRecord
         ];
     }
 
-    //для выпадающего списка в форме заполнения Visitor
+    /**
+     * Для связи c Club, через таблицу Visitor
+     * @return \yii\db\ActiveQuery
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getClub()
+    {
+        return $this->hasOne(Club::class, ['id' => 'club_id'])
+            ->viaTable(Visitor::tableName(), ['company_id' => 'id']);
+    }
+
+    /**
+     * для выпадающего списка в форме заполнения Visitor
+     * @return array
+     */
     public static function getDropDown()
     {
         return ArrayHelper::map(self::find()->all(), 'id', 'name');
     }
 
-    // поиск всех групп
     public function findCompanies()
     {
-        return Company::find()->all();
+        return self::find()->all();
     }
 }

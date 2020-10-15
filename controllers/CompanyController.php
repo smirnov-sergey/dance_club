@@ -2,10 +2,10 @@
 
 namespace app\controllers;
 
-use app\models\Company;
-use app\models\Visitor;
 use Yii;
+use yii\db\StaleObjectException;
 use yii\web\NotFoundHttpException;
+use app\models\Company;
 
 class CompanyController extends AppController
 {
@@ -14,16 +14,28 @@ class CompanyController extends AppController
         $company = new Company();
         $companies = $company->findCompanies();
 
-        return $this->render('index', compact('companies'));
+        return $this->render('index', [
+            'companies' => $companies
+        ]);
     }
 
+    /**
+     * @param $id
+     * @return string
+     * @throws NotFoundHttpException
+     */
     public function actionView($id)
     {
         $company = $this->findModel($id);
 
-        return $this->render('view', compact('company'));
+        return $this->render('view', [
+            'company' => $company
+        ]);
     }
 
+    /**
+     * @return string|\yii\web\Response
+     */
     public function actionAdd()
     {
         $company = new Company();
@@ -34,9 +46,14 @@ class CompanyController extends AppController
             }
         }
 
-        return $this->render('add', compact('company'));
+        return $this->render('add', ['company' => $company]);
     }
 
+    /**
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
+     */
     public function actionUpdate($id)
     {
         $company = $this->findModel($id);
@@ -47,34 +64,48 @@ class CompanyController extends AppController
             }
         }
 
-        return $this->render('update', compact('company'));
+        return $this->render('update', [
+            'company' => $company
+        ]);
     }
 
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws StaleObjectException
+     * @throws \Throwable
+     */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $company = $this->findModel($id);
+        $company->delete();
 
         return $this->redirect(['company/index']);
     }
 
-    //поиск записи в таблице
     protected function findModel($id)
     {
-        if (($company = Company::findOne($id)) !== null) {
+        $company = Company::findOne($id);
+        if ($company !== null) {
             return $company;
-        } else {
-            throw new NotFoundHttpException('Данной группы не существует');
         }
+
+        throw new NotFoundHttpException('Данной группы не существует');
     }
 
-    // поиск по имени трека
+    /**
+     * @param $search
+     * @return string
+     */
     public function actionSearch($search)
     {
-        if (!$search)
-            return $this->render('search');
+        $companies = Company::find()
+            ->where(['like', 'name', $search])
+            ->all();
 
-        $companies = Company::find()->where(['like', 'name', $search])->all();
-
-        return $this->render('search', compact('companies', 'search'));
+        return $this->render('search', [
+            'search' => $search, 'companies' => $companies
+        ]);
     }
 }

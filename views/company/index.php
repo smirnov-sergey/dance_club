@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\models\Company;
+
+/** @var $companies Company */
 
 $this->title = 'Группы';
 ?>
@@ -9,7 +12,9 @@ $this->title = 'Группы';
 <title><?= Html::encode($this->title) ?></title>
 
 <form method="get" action="<?= Url::to(['company/search']) ?>" class="navbar-form">
-    <input type="text" placeholder="Поиск..." name="search" class="form-control">
+    <label>
+        <input type="text" placeholder="Поиск..." name="search" class="form-control">
+    </label>
     <button type="submit" class="btn btn-default">Найти</button>
 </form>
 
@@ -28,19 +33,24 @@ $this->title = 'Группы';
 
         <?php foreach ($companies as $company): ?>
             <tr>
-                <td><?= $company->name; ?></td>
+                <td><?= $company->name ?></td>
                 <td>
                     <?php $count = 0;
                     foreach ($company->visitor as $visitor): ?>
                         <?php $count++; ?>
                     <?php endforeach; ?>
-                    <?= $count; ?>
+                    <?= $count ?>
                 </td>
                 <td>
-                    <a href="<?= Url::to(['company/view', 'id' => $company->id]); ?>"><?= Html::submitButton('Посмотреть', ['class' => 'btn btn-info']); ?></a>
-                    <a href="<?= Url::to(['company/update', 'id' => $company->id]); ?>"><?= Html::submitButton('Изменить', ['class' => 'btn btn-warning']); ?></a>
-                    <a href="<?= Url::to(['company/delete', 'id' => $company->id]); ?>"
-                       onclick="return confirm('Вы действительно хотите удалить эту группу?')"><?= Html::submitButton('Удалить', ['class' => 'btn btn-danger']); ?>
+                    <a href="<?= Url::to(['company/view', 'id' => $company->id]) ?>">
+                        <?= Html::submitButton('Посмотреть', ['class' => 'btn btn-info']) ?>
+                    </a>
+                    <a href="<?= Url::to(['company/update', 'id' => $company->id]) ?>">
+                        <?= Html::submitButton('Изменить', ['class' => 'btn btn-warning']) ?>
+                    </a>
+                    <a href="<?= Url::to(['company/delete', 'id' => $company->id]) ?>"
+                       onclick="return confirm('Вы действительно хотите удалить эту группу?')">
+                        <?= Html::submitButton('Удалить', ['class' => 'btn btn-danger']) ?>
                     </a>
                 </td>
             </tr>
@@ -48,5 +58,7 @@ $this->title = 'Группы';
 
         </tbody>
     </table>
-    <a href="<?= Url::to(['company/add']); ?>"> <?= Html::submitButton('Добавить', ['class' => 'btn btn-primary']); ?></a>
+    <a href="<?= Url::to(['company/add']) ?>">
+        <?= Html::submitButton('Добавить', ['class' => 'btn btn-primary']) ?>
+    </a>
 </div>
